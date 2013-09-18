@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+===========================================================================
+ Copyright (c) 2012 Three Pillar Global Inc. http://threepillarglobal.com
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sub-license, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ===========================================================================
+-->
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#f1eee9"
+    >    
+    <LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="7dp"
+    android:background="@drawable/blue_gradient"
+    >   
+	    <ImageView 
+			android:id="@+id/imgView"
+			android:layout_height="40dp"
+			android:layout_width="40dp"
+		/>
+	    <TextView 
+			android:id="@+id/profile"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:textColor="#ffffff"
+			android:text="Profile"
+			android:textSize="14sp"
+			android:layout_marginLeft="5dp"
+			android:textStyle="bold"
+		/>
+	</LinearLayout>     
+    <ScrollView 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    > 
+ 	<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_gradient"
+    android:layout_margin="10dp"
+    >         
+	    <TextView 
+			android:id="@+id/name"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:textColor="#000000"
+			android:textSize="12sp"
+			android:padding="5dp"
+			android:layout_marginLeft="5dp"
+		/>
+	    <TextView 
+			android:id="@+id/displayName"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:textColor="#000000"
+			android:padding="5dp"
+			android:textSize="12sp"
+			android:layout_marginLeft="5dp"
+		/>
+	    <TextView 
+			android:id="@+id/email"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:textColor="#000000"
+			android:padding="5dp"
+			android:textSize="12sp"
+			android:layout_marginLeft="5dp"
+		/>
+	    <TextView 
+			android:id="@+id/location"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:textColor="#000000"
+			android:textSize="12sp"
+			android:padding="5dp"
+			android:layout_marginLeft="5dp"
+		/>
+	    <TextView 
+			android:id="@+id/gender"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:textColor="#000000"
+			android:textSize="12sp"
+			android:padding="5dp"
+			android:layout_marginLeft="5dp"
+		/>
+	    <TextView 
+			android:id="@+id/language"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:textColor="#000000"
+			android:textSize="12sp"
+			android:padding="5dp"
+			android:layout_marginLeft="5dp"
+		/>
+	    <TextView 
+			android:id="@+id/country"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:textColor="#000000"
+			android:textSize="12sp"
+			android:padding="5dp"
+			android:layout_marginLeft="5dp"
+		/>
+	</LinearLayout>    
+</ScrollView>
+</LinearLayout>  

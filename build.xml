@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<project name="androidSDK" default="init">
+	<property name="basedir" value="." />
+	<property file="${basedir}/env.properties" />
+	<property name="sdk.name" value="socialauth-android-sdk-${sdk.version}"/>
+	<property name="distDir" value="${basedir}/${sdk.name}" />
+	<property name="javadoc" value="${distDir}/javadoc" />
+	<property name="examples" value="${distDir}/examples" />
+	<property name="assets" value="${distDir}/assets" />
+	<property name="dist" value="${distDir}/dist" />
+	<property name="src" value="${distDir}/src" />
+	<property name="libs" value="${distDir}/libs" />
+	<property name="project.socialauth.android" value="socialauth-android"/>
+	<property name="project.sharebutton" value="share-button"/>
+	<property name="project.sharebar" value="share-bar"/>
+	<property name="project.customui" value="custom-ui"/>
+	<property name="socialauth.android.path" value="${projects.path}/${project.socialauth.android}"/>
+	
+	<path id="libraries">
+		<fileset dir="${socialauth.android.path}/libs">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${android.sdk.path}/platforms/android-${android.version}">
+			<include name="android.jar" />
+		</fileset>
+		<fileset dir="${android.sdk.path}/tools/support">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<target name="clean">
+		<delete dir="${distDir}" failonerror="true" />
+		<delete file="${basedir}/{sdk.name}.zip" />
+		<delete dir="${socialauth.android.path}/bin/classes" failonerror="true" />
+	</target>
+	
+	<target name="init" depends="clean,jar,createDist,copyLibs,copyAssets,copySrc,copyExamples,copyReadMe,doc,createZip">
+		<mkdir dir="${distDir}" />
+	</target>
+	
+	<target name="jar" depends="compile">
+		<jar destfile="${project.socialauth.android}-${sdk.version}.jar" basedir="${socialauth.android.path}/bin/classes">
+			<include name="org/**" />
+		</jar>
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${socialauth.android.path}/bin/classes" />
+		<javac destdir="${socialauth.android.path}/bin/classes" classpathref="libraries" debug="true">			
+			<src location="${socialauth.android.path}/src" />
+		</javac>
+	</target>
+	
+	<target name="createDist">
+	    <echo message="Copying main jar in dist directory"/>
+	    <copy todir="${dist}">
+	        <fileset dir=".">
+				<filename name="/${project.socialauth.android}-${sdk.version}.jar"/>
+			</fileset>
+	    </copy>
+	</target>
+	
+	<target name="copyLibs">
+	    <echo message="Copying jar in lib directory"/>
+	    <copy todir="${libs}">
+	        <fileset dir="${socialauth.android.path}/libs"/>
+		</copy>
+	</target>
+	
+	<target name="copyAssets">
+	    <echo message="Copying property file in asset directory"/>
+	    <copy todir="${assets}">
+	        <fileset dir="${projects.path}/${project.sharebutton}/assets"/>
+	    </copy>
+	</target>
+	
+	<target name="copySrc">
+	    <echo message="Copying source in src directory"/>
+	    <copy todir="${src}/${project.socialauth.android}">
+	        <fileset dir="${socialauth.android.path}"/>
+	    </copy>
+	</target>
+	
+	<target name="copyExamples">
+	    <echo message="Copying example projects in example directory"/>
+	    <copy todir="${examples}/${project.sharebutton}">
+	        <fileset dir="${projects.path}/${project.sharebutton}"/>
+	    </copy>
+	    <copy todir="${examples}/${project.sharebar}">
+	        <fileset dir="${projects.path}/${project.sharebar}"/>
+	    </copy>
+	    <copy todir="${examples}/${project.customui}">
+	        <fileset dir="${projects.path}/${project.customui}"/>
+	    </copy>
+	</target>
+	
+	<target name="copyReadMe">
+	    <echo message="Copying ReadMe file"/>
+	    <copy todir="${distDir}">
+	        <fileset dir="${projects.path}">
+				<filename name="/ReadMe.txt"/>
+			</fileset>
+	    </copy>
+	</target>
+	
+	<target name="createZip">
+	    <zip destfile="./${sdk.name}.zip">
+	        <fileset dir="${distDir}"/>
+	    </zip>
+	</target>
+	
+	<target name="doc">
+		<javadoc destdir="${javadoc}/${project.socialauth.android}" 
+			sourcepath="${socialauth.android.path}/src"
+			packagenames="*"
+			windowtitle="SocialAuth Android"
+			classpathref="libraries"/>
+	</target>
+	
+</project>
