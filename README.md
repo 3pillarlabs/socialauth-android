@@ -19,14 +19,16 @@ With this library, you can:
   *	Examples updated.
   *	Bug fixes
 
-Check ([Getting Started](https://github.com/3pillarlabs/socialauth-android/wiki/Getting-Started)) to start.
+Check [Getting Started](https://github.com/3pillarlabs/socialauth-android/wiki/Getting-Started) to start.
 
 ###How does it Work?
+
 Once SocialAuth Android is integrated into your application, following is the authentication process:
-1. User opens the app and chooses the provider to request the authentication by using SocialAuth-android library.
-1. User is redirected to Facebook, Twitter or other provider's login site by library where they enter their credentials.
-1. Upon successful login, provider asks for user’s permission to share their basic data with your app.
-1. Once user accepts it,On successful authentication the library redirects user to app.
-1. Now user can call SocialAuth Android library to get information about user profile, gets contacts list or share status to friends.
+
+ * User opens the app and chooses the provider to request the authentication by using SocialAuth-android library.
+ *  User is redirected to Facebook, Twitter or other provider's login site by library where they enter their credentials.
+ *  Upon successful login, provider asks for user’s permission to share their basic data with your app.
+ * Once user accepts it,On successful authentication the library redirects user to app.
+ * Now user can call SocialAuth Android library to get information about user profile, gets contacts list or share status to friends.
  
 ![UserFlow](https://raw.github.com/wiki/3pillarlabs/socialauth-android/images/socialauthandroid-process.png)
