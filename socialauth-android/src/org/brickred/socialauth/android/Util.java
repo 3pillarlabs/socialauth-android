@@ -389,7 +389,7 @@ public final class Util {
 				break;
 			}
 		} catch (Exception e) {
-			// Caught exception here
+			e.printStackTrace();
 		}
 	}
 

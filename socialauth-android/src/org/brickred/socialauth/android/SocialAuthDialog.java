@@ -216,15 +216,8 @@ public class SocialAuthDialog extends Dialog {
 		mWebView.setHorizontalScrollBarEnabled(false);
 		mWebView.setWebViewClient(new SocialAuthDialog.SocialAuthWebViewClient());
 		mWebView.getSettings().setJavaScriptEnabled(true);
-
 		mWebView.loadUrl(mUrl);
-
 		mWebView.setLayoutParams(FILL);
-
-		// if (mProviderName.toString().equalsIgnoreCase("yahoo") ||
-		// mProviderName.toString().equalsIgnoreCase("yammer"))
-		// mWebView.getSettings().setUseWideViewPort(true);
-
 		mContent.addView(mWebView);
 	}
 

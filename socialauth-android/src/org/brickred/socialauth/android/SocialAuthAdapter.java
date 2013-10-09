@@ -230,7 +230,6 @@ public class SocialAuthAdapter {
 	private final Map<String, OAuthConfig> authMap;
 
 	// Android Components
-	private Context context;
 	private final Handler handler = new Handler();
 
 	/**
@@ -328,19 +327,19 @@ public class SocialAuthAdapter {
 
 		Log.d("SocialAuthAdapter", "Enabling button with SocialAuth");
 		final Context ctx = sharebtn.getContext();
-		context = ctx;
 
 		// Click Listener For Share Button
 		sharebtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// This dialog will show list of all providers
+
+				// Creating dialog to show list of all providers
 				AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 				builder.setTitle("Share via");
 				builder.setCancelable(true);
 				builder.setIcon(android.R.drawable.ic_menu_more);
 
-				// Handles Click Events
+				// Getting Provider Names and Logos to display
 				String[] providerNames = new String[providerCount];
 				int[] providerLogos = new int[providerCount];
 
@@ -349,6 +348,7 @@ public class SocialAuthAdapter {
 					providerLogos[i] = authProviderLogos[i];
 				}
 
+				// Handle click events
 				builder.setSingleChoiceItems(new ShareButtonAdapter(ctx, providerNames, providerLogos), 0,
 						new DialogInterface.OnClickListener() {
 							@Override
@@ -372,20 +372,29 @@ public class SocialAuthAdapter {
 			}
 		});
 
+		// If network not available show message
 		if (!Util.isNetworkAvailable(ctx)) {
 			dialogListener.onError(new SocialAuthError("Please check your Internet connection", new Exception("")));
 			return;
 		}
 	}
 
+	/**
+	 * Enables a button with the SocialAuth menu
+	 * 
+	 * @param actionView
+	 *            The button on providersthat will be clicked by user to show
+	 *            list of providers
+	 */
 	public void enable(final View actionView) {
 
+		// Creating List to show providers
 		final Context ctx = actionView.getContext();
-		context = ctx;
 		final ListView pList = new ListView(ctx);
 		pList.setLayoutParams(new LinearLayout.LayoutParams(500, 500));
 		pList.setBackgroundColor(Color.WHITE);
 
+		// Getting provider names and logos to display
 		final String[] providerNames = new String[providerCount];
 		final int[] providerLogos = new int[providerCount];
 
@@ -394,16 +403,20 @@ public class SocialAuthAdapter {
 			providerLogos[i] = authProviderLogos[i];
 		}
 
+		// Query native apps
 		final ArrayList<AppList> appList = Util.queryIntentActivities(ctx, providerNames, providerLogos);
 
+		// Handle Click Events on Action Provider button
 		actionView.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
+				// Populating List
 				pList.setAdapter(new PopUpListAdapter(ctx, appList));
 				pList.setDivider(new ColorDrawable(0x99474747));
 
+				// Creating Popup Window to show List
 				final PopupWindow popupWindow = new PopupWindow(ctx);
 				popupWindow.setFocusable(true);
 				float width = (Util.getScreenWidth(ctx) * 2) / 3;
@@ -414,12 +427,15 @@ public class SocialAuthAdapter {
 				popupWindow.setContentView(pList);
 				popupWindow.showAsDropDown(actionView, 10, 10);
 
+				// Handle Click events on list item
 				pList.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
 
+						// Dismiss popup window
 						popupWindow.dismiss();
 
+						// Start provider
 						if (position > providerNames.length) {
 							ctx.startActivity(appList.get(position).intent);
 
@@ -430,6 +446,12 @@ public class SocialAuthAdapter {
 				});
 			}
 		});
+
+		// If network not available show message
+		if (!Util.isNetworkAvailable(ctx)) {
+			dialogListener.onError(new SocialAuthError("Please check your Internet connection", new Exception("")));
+			return;
+		}
 	}
 
 	/**
@@ -442,7 +464,6 @@ public class SocialAuthAdapter {
 		Log.d("SocialAuthAdapter", "Enabling bar with SocialAuth");
 		final Context ctx = linearbar.getContext();
 
-		context = ctx;
 		// Handles Clicking Events for Buttons
 		View.OnClickListener viewlistener = new View.OnClickListener() {
 			@Override
@@ -470,6 +491,7 @@ public class SocialAuthAdapter {
 			linearbar.addView(provider);
 		}
 
+		// If network not available show message
 		if (!Util.isNetworkAvailable(ctx)) {
 			dialogListener.onError(new SocialAuthError("Please check your Internet connection", new Exception("")));
 			return;
@@ -486,11 +508,7 @@ public class SocialAuthAdapter {
 	 */
 
 	public void authorize(Context ctx, Provider provider) {
-		if (!Util.isNetworkAvailable(ctx)) {
-			dialogListener.onError(new SocialAuthError("Please check your Internet connection", new Exception("")));
-			return;
-		}
-		context = ctx;
+
 		currentProvider = provider;
 		Log.d("SocialAuthAdapter", "Selected provider is " + currentProvider);
 
@@ -506,12 +524,14 @@ public class SocialAuthAdapter {
 			}
 
 			// If SocialAuthManager is not null and not contains Provider Id
+			// connect provider
 			else {
 				connectProvider(ctx, provider);
 			}
 
 		}
-		// If SocialAuthManager is null
+		// If SocialAuthManager is null, create new socialauthmanager , load
+		// configuration and connect provider
 		else {
 			Log.d("SocialAuthAdapter", "Loading keys and secrets from configuration");
 
@@ -523,6 +543,12 @@ public class SocialAuthAdapter {
 				Log.d("SocialAuthAdapter", "Could not load configuration");
 			}
 			connectProvider(ctx, provider);
+		}
+
+		// If network not available show message
+		if (!Util.isNetworkAvailable(ctx)) {
+			dialogListener.onError(new SocialAuthError("Please check your Internet connection", new Exception("")));
+			return;
 		}
 	}
 
@@ -563,6 +589,7 @@ public class SocialAuthAdapter {
 		AssetManager assetManager = resources.getAssets();
 		InputStream inputStream;
 		boolean fileExist = false;
+		// Check oauth_consumer.properties file exist
 		try {
 			inputStream = assetManager.open("oauth_consumer.properties");
 			fileExist = true;
@@ -617,7 +644,6 @@ public class SocialAuthAdapter {
 						}
 					});
 				} catch (Exception e) {
-
 					dialogListener.onError(new SocialAuthError("URL Authentication error", e));
 				}
 			}
@@ -654,9 +680,7 @@ public class SocialAuthAdapter {
 				attrMap = new HashMap<String, Object>();
 
 				String key = (String) tokenMap.get(provider.toString() + " key");
-
 				String secret = (String) tokenMap.get(provider.toString() + " secret");
-
 				String providerid = (String) tokenMap.get(provider.toString() + " providerid");
 
 				String temp = provider.toString() + "attribute";
@@ -665,9 +689,6 @@ public class SocialAuthAdapter {
 
 					if (attr.startsWith(temp)) {
 						int startLocation = attr.indexOf(temp) + temp.length() + 1;
-						System.out.println("Startlocation " + String.valueOf(startLocation));
-						System.out.println("Value " + String.valueOf(tokenMap.get(attr)));
-
 						attrMap.put(attr.substring(startLocation), tokenMap.get(attr));
 					}
 
@@ -677,6 +698,7 @@ public class SocialAuthAdapter {
 					System.out.println(entry.getKey() + ", " + entry.getValue());
 				}
 
+				// create new AccessGrant Object
 				final AccessGrant accessGrant = new AccessGrant(key, secret);
 				accessGrant.setProviderId(providerid);
 				accessGrant.setAttributes(attrMap);
@@ -688,6 +710,7 @@ public class SocialAuthAdapter {
 					public void run() {
 						try {
 
+							// connect manager with accessGrant
 							socialAuthManager.connect(accessGrant);
 
 							// To check validity of Access Token
@@ -706,6 +729,8 @@ public class SocialAuthAdapter {
 							dialogListener.onError(new SocialAuthError("Token Error", e));
 							Log.d("SocialAuthAdapter", "Starting webview for authentication for new Token");
 
+							// Create new SocialAuth Manager if token error
+							// occurs
 							socialAuthManager = new SocialAuthManager();
 							try {
 								loadConfig(ctx);
@@ -755,7 +780,7 @@ public class SocialAuthAdapter {
 	 */
 	public boolean signOut(Context ctx, String providerName) {
 
-		CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(ctx);
+		// remove cookies
 		CookieManager cookieManager = CookieManager.getInstance();
 		cookieManager.removeAllCookie();
 
