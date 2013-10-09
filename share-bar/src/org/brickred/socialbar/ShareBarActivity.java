@@ -106,7 +106,6 @@ public class ShareBarActivity extends Activity {
 		adapter.addProvider(Provider.FACEBOOK, R.drawable.facebook);
 		adapter.addProvider(Provider.TWITTER, R.drawable.twitter);
 		adapter.addProvider(Provider.LINKEDIN, R.drawable.linkedin);
-		adapter.addProvider(Provider.MYSPACE, R.drawable.myspace);
 
 		// Add email and mms providers
 		adapter.addProvider(Provider.EMAIL, R.drawable.email);
@@ -114,6 +113,17 @@ public class ShareBarActivity extends Activity {
 
 		// For twitter use add callback method. Put your own callback url here.
 		adapter.addCallBack(Provider.TWITTER, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do");
+
+		// Add keys and Secrets
+		try {
+			adapter.addConfig(Provider.FACEBOOK, "392808544102529", "a11c13e793b2b6696bbc036ef5d3ff8f", null);
+			adapter.addConfig(Provider.TWITTER, "5jwyYJia583EEczmdAmlOA", "j0rQkJjTjwVdv7HFiE4zz2qKJKzqjksR2aviVU8fSc",
+					null);
+			adapter.addConfig(Provider.LINKEDIN, "bh82t52rdos6", "zQ1LLrGbhDZ36fH8", null);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		adapter.enable(bar);
 

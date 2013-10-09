@@ -27,6 +27,7 @@ package org.brickred.customui;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.brickred.customadapter.CustomAdapter;
@@ -92,7 +93,7 @@ import android.widget.Toast;
 public class CustomUI extends Activity {
 
 	// SocialAuth Components
-	SocialAuthAdapter adapter;
+	private static SocialAuthAdapter adapter;
 	Profile profileMap;
 	List<Photo> photosList;
 
@@ -123,6 +124,10 @@ public class CustomUI extends Activity {
 
 		listview = (ListView) findViewById(R.id.listview);
 		listview.setAdapter(new CustomAdapter(this, adapter));
+	}
+
+	public static SocialAuthAdapter getSocialAuthAdapter() {
+		return adapter;
 	}
 
 	// To receive the response after authentication
@@ -337,13 +342,18 @@ public class CustomUI extends Activity {
 		case 6: {
 			// For share text with link preview
 			if (provider.equalsIgnoreCase("facebook")) {
-				adapter.updateStory(
-						"Hello SocialAuth Android" + System.currentTimeMillis(),
-						"Google SDK for Android",
-						"Build great social apps and get more installs.",
-						"The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.",
-						"https://www.facebook.com", "http://carbonfreepress.gr/images/facebook.png",
-						new MessageListener());
+				try {
+					adapter.updateStory(
+							"Hello SocialAuth Android" + System.currentTimeMillis(),
+							"Google SDK for Android",
+							"Build great social apps and get more installs.",
+							"The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.",
+							"https://www.facebook.com", "http://carbonfreepress.gr/images/facebook.png",
+							new MessageListener());
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			} else {
 				dialog.dismiss();
@@ -417,8 +427,8 @@ public class CustomUI extends Activity {
 
 		@Override
 		public void onError(SocialAuthError e) {
-		}
 
+		}
 	}
 
 	// To receive the contacts response after authentication

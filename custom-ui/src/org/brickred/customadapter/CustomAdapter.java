@@ -58,10 +58,10 @@ public class CustomAdapter extends BaseAdapter {
 	SocialAuthAdapter adapter;
 	private final Provider[] providers = new Provider[] { Provider.FACEBOOK, Provider.TWITTER, Provider.LINKEDIN,
 			Provider.MYSPACE, Provider.YAHOO, Provider.GOOGLE, Provider.SALESFORCE, Provider.FOURSQUARE,
-			Provider.GOOGLEPLUS, Provider.YAMMER, Provider.RUNKEEPER };
+			Provider.GOOGLEPLUS, Provider.YAMMER, Provider.RUNKEEPER, Provider.FLICKR, Provider.INSTAGRAM };
 	private final int[] images = new int[] { R.drawable.facebook, R.drawable.twitter, R.drawable.linkedin,
 			R.drawable.myspace, R.drawable.yahoo, R.drawable.google, R.drawable.salesforce, R.drawable.foursquare,
-			R.drawable.googleplus, R.drawable.yammer, R.drawable.runkeeper, };
+			R.drawable.googleplus, R.drawable.yammer, R.drawable.runkeeper, R.drawable.flickr, R.drawable.instagram };
 
 	public CustomAdapter(Context context, SocialAuthAdapter mAdapter) {
 		// Cache the LayoutInflate to avoid asking for a new one each time.
@@ -158,6 +158,12 @@ public class CustomAdapter extends BaseAdapter {
 				else if (providers[position].equals(Provider.YAMMER))
 					adapter.addCallBack(Provider.YAMMER,
 							"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do");
+				else if (providers[position].equals(Provider.FLICKR))
+					adapter.addCallBack(Provider.FLICKR,
+							"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do");
+				else if (providers[position].equals(Provider.INSTAGRAM))
+					adapter.addCallBack(Provider.INSTAGRAM,
+							"http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do");
 
 				// This method will enable the selected provider
 				adapter.authorize(ctx, providers[position]);
@@ -198,7 +204,7 @@ public class CustomAdapter extends BaseAdapter {
 					adapter.authorize(ctx, providers[position]);
 				} else if (text.equalsIgnoreCase("sign out")) {
 					// Sign Out
-					boolean status = adapter.signOut(providers[position].toString());
+					boolean status = adapter.signOut(ctx, providers[position].toString());
 					Log.d("status", String.valueOf(status));
 					if (status) {
 						((TextView) v).setText("Sign In");

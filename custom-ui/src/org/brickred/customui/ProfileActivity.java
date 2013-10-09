@@ -96,11 +96,11 @@ public class ProfileActivity extends Activity {
 		imageLoader.DisplayImage(profileMap.getProfileImageURL(), image);
 
 		// Name:
-		// Facebook returns : FullName,FirstName,Last Name
+		// Facebook, Instagram returns : FullName,FirstName,Last Name
 		// MySpace, SalesForce, Yahoo, Google, FourSquare,
-		// Linkedin returns : Display Name, First , Last Name
+		// Linkedin returns : First , Last Name
 		// RunKeeper : First Name , Full Name
-		// Yammer, Twitter : FullName
+		// Yammer, Twitter, Flickr : FullName
 
 		if (profileMap.getFullName() == null)
 			name.setText("Name                  :  " + profileMap.getFirstName() + profileMap.getLastName());
@@ -108,17 +108,19 @@ public class ProfileActivity extends Activity {
 			name.setText("Name                  :  " + profileMap.getFullName());
 
 		// Display Name
-		// Return by Twitter, MySpace, Yahoo , SalesForce
+		// Return by Twitter, MySpace, Yahoo , SalesForce, Flickr, Instagram
 		if (provider_name.equalsIgnoreCase("twitter") || provider_name.equalsIgnoreCase("myspace")
-				|| provider_name.equalsIgnoreCase("yahoo") || provider_name.equalsIgnoreCase("salesforce"))
+				|| provider_name.equalsIgnoreCase("yahoo") || provider_name.equalsIgnoreCase("salesforce")
+				|| provider_name.equalsIgnoreCase("flickr") || provider_name.equalsIgnoreCase("instagram"))
 			displayName.setText("Display Name  :  " + profileMap.getDisplayName());
 		else
 			displayName.setVisibility(View.GONE);
 
 		// Email
-		// Not Return by Twitter, MySpace,Runkeeper
+		// Not Return by Twitter, MySpace,Runkeeper, Flickr
 		if (!provider_name.equalsIgnoreCase("twitter") || !provider_name.equalsIgnoreCase("myspace")
-				|| !provider_name.equalsIgnoreCase("runkeeper"))
+				|| !provider_name.equalsIgnoreCase("runkeeper") || !provider_name.equalsIgnoreCase("flickr")
+				|| !provider_name.equalsIgnoreCase("instagram"))
 			email.setText("Email                  :  " + profileMap.getEmail());
 		else
 			email.setVisibility(View.GONE);
@@ -140,9 +142,10 @@ public class ProfileActivity extends Activity {
 			gender.setVisibility(View.GONE);
 
 		// Language
-		// Not Return by Linkedin, Yammer, Runkeeper, FourSquare
+		// Not Return by Linkedin, Yammer, Runkeeper, FourSquare, Flickr
 		if (!provider_name.equalsIgnoreCase("linkedin") || !provider_name.equalsIgnoreCase("yammer")
-				|| !provider_name.equalsIgnoreCase("runkeeper") || !provider_name.equalsIgnoreCase("foursquare"))
+				|| !provider_name.equalsIgnoreCase("runkeeper") || !provider_name.equalsIgnoreCase("foursquare")
+				|| !provider_name.equalsIgnoreCase("flickr") || !provider_name.equalsIgnoreCase("instagram"))
 			language.setText("Language          :  " + profileMap.getLanguage());
 		else
 			language.setVisibility(View.GONE);

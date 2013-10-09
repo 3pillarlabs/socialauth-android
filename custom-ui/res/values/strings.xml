@@ -46,25 +46,39 @@
     	<item>Contacts</item>
     	<item>Close Dialog</item>
     </string-array>	
+    <string-array name="googleplus_array">
+    	<item>User Profile</item>
+    	<item>Friends</item>
+    	<item>Get Feeds</item>
+    	<item>Get Albums</item>
+    	<item>Close Dialog</item>
+    </string-array>
+    <string-array name="google_array">
+    	<item>User Profile</item>
+    	<item>Friends</item>
+    	<item>Close Dialog</item>
+    </string-array>	
     <string-array name="foursquare_array">
     	<item>User Profile</item>
     	<item>Contacts</item>
     	<item>Close Dialog</item>
     </string-array>	
-    <string-array name="google_array">
+    <string-array name="flickr_array">
     	<item>User Profile</item>
-    	<item>Friends</item>
+    	<item>Contacts</item>
     	<item>Close Dialog</item>
-    </string-array>			
+    </string-array>
+    <string-array name="instagram_array">
+    	<item>User Profile</item>
+    	<item>Contacts</item>
+    	<item>Get Feeds</item>
+    	<item>Close Dialog</item>
+    </string-array>
     <string-array name="salesforce_array">
     	<item>User Profile</item>
     	<item>Close Dialog</item>
     </string-array>
     <string-array name="runkeeper_array">
-    	<item>User Profile</item>
-    	<item>Close Dialog</item>
-    </string-array>
-    <string-array name="googleplus_array">
     	<item>User Profile</item>
     	<item>Close Dialog</item>
     </string-array>

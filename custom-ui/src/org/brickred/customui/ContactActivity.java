@@ -36,6 +36,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -102,6 +103,13 @@ public class ContactActivity extends Activity {
 			TextView label = (TextView) row.findViewById(R.id.cName);
 			TextView email = (TextView) row.findViewById(R.id.cEmail);
 			ImageView cImage = (ImageView) row.findViewById(R.id.cImage);
+			cImage.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					CustomUI.getSocialAuthAdapter().signOut(ContactActivity.this, "twitter");
+				}
+			});
 
 			Log.d("Custom-UI", "Display Name = " + bean.getDisplayName());
 			Log.d("Custom-UI", "First Name = " + bean.getFirstName());
@@ -115,14 +123,15 @@ public class ContactActivity extends Activity {
 
 			if (provider_name.equalsIgnoreCase("twitter"))
 				label.setText(bean.getFirstName() + "@" + bean.getDisplayName()); // twitter
-			else if (provider_name.equalsIgnoreCase("yammer"))
+			else if (provider_name.equalsIgnoreCase("yammer") || provider_name.equalsIgnoreCase("flickr")
+					|| provider_name.equalsIgnoreCase("instagram"))
 				label.setText(bean.getDisplayName()); // yammer
 			else
 				label.setText(bean.getFirstName() + bean.getLastName());
 
 			// Show email for google , yammer , yahoo
 			if (provider_name.equalsIgnoreCase("google") || provider_name.equalsIgnoreCase("yammer")
-					|| provider_name.equalsIgnoreCase("yahoo")) {
+					|| provider_name.equalsIgnoreCase("yahoo") || provider_name.equalsIgnoreCase("googleplus")) {
 				email.setVisibility(View.VISIBLE);
 				email.setText(bean.getEmail());
 			}
