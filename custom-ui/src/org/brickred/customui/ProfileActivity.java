@@ -117,18 +117,23 @@ public class ProfileActivity extends Activity {
 			displayName.setVisibility(View.GONE);
 
 		// Email
-		// Not Return by Twitter, MySpace,Runkeeper, Flickr
-		if (!provider_name.equalsIgnoreCase("twitter") || !provider_name.equalsIgnoreCase("myspace")
-				|| !provider_name.equalsIgnoreCase("runkeeper") || !provider_name.equalsIgnoreCase("flickr")
-				|| !provider_name.equalsIgnoreCase("instagram"))
+		// Return by Facebook, Twitter, Linkedin, Google, GooglePlus, Yammer,
+		// Yahoo, FourSquare, Salesforce
+		if (provider_name.equalsIgnoreCase("facebook") || provider_name.equalsIgnoreCase("linkedin")
+				|| provider_name.equalsIgnoreCase("google") || provider_name.equalsIgnoreCase("googleplus")
+				|| provider_name.equalsIgnoreCase("foursquare") || provider_name.equalsIgnoreCase("salesforce")
+				|| provider_name.equalsIgnoreCase("yahoo") || provider_name.equalsIgnoreCase("yammer"))
 			email.setText("Email                  :  " + profileMap.getEmail());
 		else
 			email.setVisibility(View.GONE);
 
 		// Location
-		// Not Return by Twitter, Google, salesForce
-		if (!provider_name.equalsIgnoreCase("twitter") || !provider_name.equalsIgnoreCase("google")
-				|| !provider_name.equalsIgnoreCase("salesforce"))
+		// Return by Facebook, MySpace, Linkedin, Yammer,Runkeeper
+		// Yahoo, FourSquare, Salesforce
+		if (provider_name.equalsIgnoreCase("facebook") || provider_name.equalsIgnoreCase("linkedin")
+				|| provider_name.equalsIgnoreCase("myspace") || provider_name.equalsIgnoreCase("runkeeper")
+				|| provider_name.equalsIgnoreCase("foursquare") || provider_name.equalsIgnoreCase("yahoo")
+				|| provider_name.equalsIgnoreCase("yammer"))
 			location.setText("Location            :  " + profileMap.getLocation());
 		else
 			location.setVisibility(View.GONE);
@@ -142,18 +147,21 @@ public class ProfileActivity extends Activity {
 			gender.setVisibility(View.GONE);
 
 		// Language
-		// Not Return by Linkedin, Yammer, Runkeeper, FourSquare, Flickr
-		if (!provider_name.equalsIgnoreCase("linkedin") || !provider_name.equalsIgnoreCase("yammer")
-				|| !provider_name.equalsIgnoreCase("runkeeper") || !provider_name.equalsIgnoreCase("foursquare")
-				|| !provider_name.equalsIgnoreCase("flickr") || !provider_name.equalsIgnoreCase("instagram"))
+		// Return by Fcaebook, Twitter, Google, GooglePlus, Salesforce, Myspace,
+		// Yahoo
+		if (provider_name.equalsIgnoreCase("facebook") || provider_name.equalsIgnoreCase("twitter")
+				|| provider_name.equalsIgnoreCase("google") || provider_name.equalsIgnoreCase("googleplus")
+				|| provider_name.equalsIgnoreCase("salesforce") || provider_name.equalsIgnoreCase("myspace")
+				|| provider_name.equalsIgnoreCase("yahoo"))
+
 			language.setText("Language          :  " + profileMap.getLanguage());
 		else
 			language.setVisibility(View.GONE);
 
 		// Country
-		// Return by FB , Google , SalesForce
+		// Return by FB , Google , SalesForce, Flickr
 		if (provider_name.equalsIgnoreCase("facebook") || provider_name.equalsIgnoreCase("google")
-				|| provider_name.equalsIgnoreCase("salesforce"))
+				|| provider_name.equalsIgnoreCase("salesforce") || provider_name.equalsIgnoreCase("flickr"))
 			country.setText("Country            :  " + profileMap.getCountry());
 		else
 			country.setVisibility(View.GONE);

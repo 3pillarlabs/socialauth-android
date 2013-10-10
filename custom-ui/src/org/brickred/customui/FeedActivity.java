@@ -85,7 +85,7 @@ public class FeedActivity extends Activity {
 		feedList = (ArrayList<Feed>) getIntent().getSerializableExtra("feed");
 
 		ListView list = (ListView) findViewById(R.id.feedList);
-		list.setAdapter(new MyCustomAdapter(this, 0, feedList));
+		list.setAdapter(new MyCustomAdapter(this, R.layout.feed_list, feedList));
 
 	}
 

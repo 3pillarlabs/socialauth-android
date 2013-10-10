@@ -781,6 +781,7 @@ public class SocialAuthAdapter {
 	public boolean signOut(Context ctx, String providerName) {
 
 		// remove cookies
+		CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(ctx);
 		CookieManager cookieManager = CookieManager.getInstance();
 		cookieManager.removeAllCookie();
 
@@ -926,6 +927,7 @@ public class SocialAuthAdapter {
 			Response response = null;
 			Map<String, String> paramsMap = params[0];
 			try {
+				Log.d("provider", getCurrentProvider().toString());
 				response = getCurrentProvider().api(UPDATE_STATUS_URL, MethodType.POST.toString(), paramsMap, null,
 						storyResult);
 			} catch (Exception e) {

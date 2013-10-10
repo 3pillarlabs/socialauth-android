@@ -113,19 +113,19 @@ public class CareerActivity extends Activity implements OnClickListener {
 		if (careerMap.getHeadline() != null)
 			headline.setText(careerMap.getHeadline());
 
-		if (careerMap.getPositions().length > 0) {
+		if (careerMap.getPositions() != null && careerMap.getPositions().length > 0) {
 			Position[] pos = careerMap.getPositions();
 			posList.setAdapter(new PositionAdapter(CareerActivity.this, 0, pos));
 
 		}
 
-		if (careerMap.getRecommendations().length > 0) {
+		if (careerMap.getRecommendations() != null && careerMap.getRecommendations().length > 0) {
 			Recommendation[] recommendation = careerMap.getRecommendations();
 			recommendList.setAdapter(new RecommendAdapter(CareerActivity.this, 0, recommendation));
 
 		}
 
-		if (careerMap.getEducations().length > 0) {
+		if (careerMap.getEducations() != null && careerMap.getEducations().length > 0) {
 			Education[] edu = careerMap.getEducations();
 			eduList.setAdapter(new EducationAdapter(CareerActivity.this, 0, edu));
 		}

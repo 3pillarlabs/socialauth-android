@@ -204,16 +204,21 @@ public class CustomUI extends Activity {
 		}
 
 		case 1: {
-			// Get Contacts for FourSquare , Google
-			// Dismiss Dialog for Runkeeper and SalesForce
-			// Update Status for rest of providers
+			// Share Update : Facebook, Twitter, Linkedin, Yahoo,
+			// MySpace,Yammer
 
-			if (provider.equalsIgnoreCase("foursquare") || provider.equalsIgnoreCase("google")) {
+			// Get Contacts for FourSquare, Google, Google Plus,
+			// Flickr, Instagram
+
+			// Dismiss Dialog for Runkeeper and SalesForce
+
+			if (provider.equalsIgnoreCase("foursquare") || provider.equalsIgnoreCase("google")
+					|| provider.equalsIgnoreCase("flickr") || provider.equalsIgnoreCase("googleplus")
+					|| provider.equalsIgnoreCase("instagram")) {
 				mDialog.show();
 				adapter.getContactListAsync(new ContactDataListener());
 
-			} else if (provider.equalsIgnoreCase("runkeeper") || provider.equalsIgnoreCase("salesforce")
-					|| provider.equalsIgnoreCase("googleplus")) {
+			} else if (provider.equalsIgnoreCase("runkeeper") || provider.equalsIgnoreCase("salesforce")) {
 				dialog.dismiss();
 
 			} else {
@@ -244,12 +249,19 @@ public class CustomUI extends Activity {
 
 		case 2: {
 
-			// Dismiss Dialog for FourSquare , Google
-			// Get Contacts for rest of providers
+			// Get Contacts : Facebook, Twitter, Linkedin, Yahoo,
+			// MySpace,Yammer
 
-			if (provider.equalsIgnoreCase("foursquare") || provider.equalsIgnoreCase("google")) {
+			// Get Feeds : Google Plus, Instagram
+			// Dismiss Dialog for FourSquare , Google, Flickr
+
+			if (provider.equalsIgnoreCase("foursquare") || provider.equalsIgnoreCase("google")
+					|| provider.equalsIgnoreCase("flickr")) {
 				// Close Dialog
 				dialog.dismiss();
+			} else if (provider.equalsIgnoreCase("instagram") || provider.equalsIgnoreCase("googleplus")) {
+				mDialog.show();
+				adapter.getFeedsAsync(new FeedDataListener());
 			} else {
 				// Get Contacts for Remaining Providers
 				mDialog.show();
@@ -259,13 +271,17 @@ public class CustomUI extends Activity {
 		}
 
 		case 3: {
-			// Get Feeds : For Facebook , Twitter Only
-			// Dismiss Dialog for rest of providers
+			// Get Feeds : For Facebook , Twitter, Linkedin
+			// Get Albums : Google Plus
+			// Dismiss Dialog: Rest
 
 			if (provider.equalsIgnoreCase("facebook") || provider.equalsIgnoreCase("twitter")
 					|| provider.equalsIgnoreCase("linkedin")) {
 				mDialog.show();
 				adapter.getFeedsAsync(new FeedDataListener());
+			} else if (provider.equalsIgnoreCase("googleplus")) {
+				mDialog.show();
+				adapter.getAlbumsAsync(new AlbumDataListener());
 			} else {
 				dialog.dismiss();
 			}
@@ -420,9 +436,13 @@ public class CustomUI extends Activity {
 			mDialog.dismiss();
 			List<Album> albumList = t;
 
-			Intent intent = new Intent(CustomUI.this, AlbumActivity.class);
-			intent.putExtra("album", (Serializable) albumList);
-			startActivity(intent);
+			if (albumList != null && albumList.size() > 0) {
+				Intent intent = new Intent(CustomUI.this, AlbumActivity.class);
+				intent.putExtra("album", (Serializable) albumList);
+				startActivity(intent);
+			} else {
+				Log.d("Custom-UI", "Album List Empty");
+			}
 		}
 
 		@Override
@@ -441,10 +461,14 @@ public class CustomUI extends Activity {
 			mDialog.dismiss();
 			List<Contact> contactsList = t;
 
-			Intent intent = new Intent(CustomUI.this, ContactActivity.class);
-			intent.putExtra("provider", provider);
-			intent.putExtra("contact", (Serializable) contactsList);
-			startActivity(intent);
+			if (contactsList != null && contactsList.size() > 0) {
+				Intent intent = new Intent(CustomUI.this, ContactActivity.class);
+				intent.putExtra("provider", provider);
+				intent.putExtra("contact", (Serializable) contactsList);
+				startActivity(intent);
+			} else {
+				Log.d("Custom-UI", "Contact List Empty");
+			}
 		}
 
 		@Override
@@ -461,7 +485,10 @@ public class CustomUI extends Activity {
 			mDialog.dismiss();
 			Integer status = t;
 			Log.d("Custom-UI", String.valueOf(status));
-			Toast.makeText(CustomUI.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+			if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204)
+				Toast.makeText(CustomUI.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+			else
+				Toast.makeText(CustomUI.this, "Image not Uploaded", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -479,9 +506,14 @@ public class CustomUI extends Activity {
 			Log.d("Custom-UI", "Receiving Data");
 			mDialog.dismiss();
 			List<Feed> feedList = t;
-			Intent intent = new Intent(CustomUI.this, FeedActivity.class);
-			intent.putExtra("feed", (Serializable) feedList);
-			startActivity(intent);
+
+			if (feedList != null && feedList.size() > 0) {
+				Intent intent = new Intent(CustomUI.this, FeedActivity.class);
+				intent.putExtra("feed", (Serializable) feedList);
+				startActivity(intent);
+			} else {
+				Log.d("Custom-UI", "Feed List Empty");
+			}
 		}
 
 		@Override
