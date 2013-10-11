@@ -115,7 +115,8 @@ public class ContactActivity extends Activity {
 
 			if (provider_name.equalsIgnoreCase("twitter"))
 				label.setText(bean.getFirstName() + "@" + bean.getDisplayName()); // twitter
-			else if (provider_name.equalsIgnoreCase("yammer") || provider_name.equalsIgnoreCase("instagram"))
+			else if (provider_name.equalsIgnoreCase("yammer") || provider_name.equalsIgnoreCase("instagram")
+					|| provider_name.equalsIgnoreCase("flickr"))
 				label.setText(bean.getDisplayName()); // yammer
 			else
 				label.setText(bean.getFirstName() + bean.getLastName());

@@ -119,7 +119,7 @@ public class AlbumActivity extends Activity {
 	public void showPhoto(final GridView gridView, final List<Album> albumList, int position) {
 
 		Album bean = albumList.get(position);
-		Log.d("LifeView", "Album Clicked");
+		Log.d("Custom-UI", "Album Clicked");
 
 		final List<Photo> photoList = bean.getPhotos();
 		PhotoAdapter photoAdapter = new PhotoAdapter(AlbumActivity.this, 0, photoList);
@@ -133,7 +133,7 @@ public class AlbumActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
 				Toast.makeText(AlbumActivity.this, "Loading Photo..... Please Wait", Toast.LENGTH_SHORT).show();
-				Log.d("LifeView", "Photo Clicked");
+				Log.d("Custom-UI", "Photo Clicked");
 				dataSectionView.setVisibility(View.GONE);
 				photoListFlag = false;
 				photoFlag = true;

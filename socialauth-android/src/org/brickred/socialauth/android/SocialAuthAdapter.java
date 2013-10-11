@@ -138,8 +138,8 @@ public class SocialAuthAdapter {
 				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), SALESFORCE(
 				Constants.SALESFORCE, "https://socialauth.in:8443/socialauthdemo/socialAuthSuccessAction.do",
 				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), GOOGLEPLUS(
-				Constants.GOOGLE_PLUS, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
-				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), INSTAGRAM(
+				Constants.GOOGLE_PLUS, "http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do",
+				"http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), INSTAGRAM(
 				Constants.INSTAGRAM, "http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do",
 				"http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), FLICKR(
 				Constants.FLICKR, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
@@ -927,14 +927,16 @@ public class SocialAuthAdapter {
 			Response response = null;
 			Map<String, String> paramsMap = params[0];
 			try {
-				Log.d("provider", getCurrentProvider().toString());
 				response = getCurrentProvider().api(UPDATE_STATUS_URL, MethodType.POST.toString(), paramsMap, null,
 						storyResult);
+				Log.d("Status", String.valueOf(response.getStatus()));
+				return Integer.valueOf(response.getStatus());
 			} catch (Exception e) {
+				e.printStackTrace();
 				dialogListener.onError(new SocialAuthError("Message Not Posted", e));
+				return null;
 			}
 
-			return Integer.valueOf(response.getStatus());
 		}
 
 		@Override
