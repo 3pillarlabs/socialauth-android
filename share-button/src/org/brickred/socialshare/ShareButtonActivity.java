@@ -65,7 +65,9 @@ import android.widget.Toast;
  * addProvider method and finally enables the providers by calling enable method<br>
  * 
  * After successful authentication of provider, it receives the response in
- * responseListener and then update status by updatestatus() method <br>
+ * responseListener and then update status by updatestatus() method
+ * 
+ * <br>
  * 
  * @author vineet.aggarwal@3pillarglobal.com
  * 
@@ -105,7 +107,6 @@ public class ShareButtonActivity extends Activity {
 		adapter.addProvider(Provider.FACEBOOK, R.drawable.facebook);
 		adapter.addProvider(Provider.TWITTER, R.drawable.twitter);
 		adapter.addProvider(Provider.LINKEDIN, R.drawable.linkedin);
-		adapter.addProvider(Provider.MYSPACE, R.drawable.myspace);
 		adapter.addProvider(Provider.YAHOO, R.drawable.yahoo);
 		adapter.addProvider(Provider.YAMMER, R.drawable.yammer);
 		adapter.addProvider(Provider.EMAIL, R.drawable.email);

@@ -68,7 +68,12 @@ import android.widget.Toast;
  * functionalites like getting profile , contacts , sharing images etc.
  * 
  * Now you can use share -bar to share message via email and mms.See example
- * below <br>
+ * below
+ * 
+ * This example shows how you can use addconfig method to define key and secrets
+ * in code.Therefore we have remove oauthconsumers.properties.
+ * 
+ * <br>
  * 
  * @author vineet.aggarwal@3pillarglobal.com
  * 

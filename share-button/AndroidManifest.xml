@@ -25,8 +25,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.brickred.socialshare"
-      android:versionCode="4"
-      android:versionName="2.6">
+      android:versionCode="5"
+      android:versionName="3.0">
 
     <uses-sdk android:minSdkVersion="8"/>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
