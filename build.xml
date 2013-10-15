@@ -14,6 +14,7 @@
 	<property name="project.sharebutton" value="share-button"/>
 	<property name="project.sharebar" value="share-bar"/>
 	<property name="project.customui" value="custom-ui"/>
+	<property name="project.sharemenu" value="share-menu"/>
 	<property name="socialauth.android.path" value="${projects.path}/${project.socialauth.android}"/>
 	
 	<path id="libraries">
@@ -91,6 +92,9 @@
 	    </copy>
 	    <copy todir="${examples}/${project.customui}">
 	        <fileset dir="${projects.path}/${project.customui}"/>
+	    </copy>
+		 <copy todir="${examples}/${project.sharemenu}">
+	        <fileset dir="${projects.path}/${project.sharemenu}"/>
 	    </copy>
 	</target>
 	

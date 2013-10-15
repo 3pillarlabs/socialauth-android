@@ -36,8 +36,10 @@ public interface SocialAuthListener<T> {
 	 * Called when data recived from server. Executed by the thread that
 	 * initiated the dialog.
 	 * 
-	 * @param Bundle
-	 *            containing response.
+	 * @param provider
+	 *            provider name
+	 * @param t
+	 *            return type
 	 */
 	public void onExecute(String provider, T t);
 

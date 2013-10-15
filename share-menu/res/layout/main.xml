@@ -71,7 +71,7 @@
 		android:layout_width="wrap_content"
 		android:background="#147af8"
 		android:textColor="#ffffff"
-		android:textSize="10sp"
+		android:textSize="12sp"
 		android:text="Update"
 		android:layout_alignRight="@+id/editTxt"
 		android:layout_marginRight="10dp"

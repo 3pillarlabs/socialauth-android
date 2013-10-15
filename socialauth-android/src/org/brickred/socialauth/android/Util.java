@@ -33,21 +33,18 @@ import java.util.List;
 import java.util.Map;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.WindowManager;
 
 /**
@@ -136,45 +133,6 @@ public final class Util {
 	}
 
 	/**
-	 * Get Screen width for ICS and 3.2
-	 * 
-	 * @param activity
-	 * 
-	 * @return width
-	 */
-
-	@TargetApi(13)
-	public static int getScreenWidth(Context ctx) {
-		WindowManager wm = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
-
-		Display display = wm.getDefaultDisplay();
-		Point size = new Point();
-		display.getSize(size);
-		int width = size.x;
-
-		return width;
-	}
-
-	/**
-	 * Get Screen Height for post ICS devices
-	 * 
-	 * @param activity
-	 * 
-	 * @return height
-	 */
-	@TargetApi(13)
-	public static int getScreenHeight(Context ctx) {
-
-		WindowManager wm = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
-
-		Display display = wm.getDefaultDisplay();
-		Point size = new Point();
-		display.getSize(size);
-		int height = size.y;
-		return height;
-	}
-
-	/**
 	 * Display a simple alert dialog with the given text and title.
 	 * 
 	 * @param context
@@ -184,6 +142,7 @@ public final class Util {
 	 * @param text
 	 *            Alert dialog message
 	 */
+
 	public static void showAlert(Context context, String title, String text) {
 		Builder alertBuilder = new Builder(context);
 		alertBuilder.setTitle(title);

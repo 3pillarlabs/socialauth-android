@@ -176,7 +176,6 @@ public class SocialAuthDialog extends Dialog {
 				return false;
 			}
 		});
-
 	}
 
 	/**

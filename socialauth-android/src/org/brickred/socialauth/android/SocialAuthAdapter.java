@@ -274,7 +274,7 @@ public class SocialAuthAdapter {
 	 * 
 	 * @param provider
 	 *            Provider to be enables
-	 * @param calBack
+	 * @param callBack
 	 *            CallBack URL String
 	 */
 	public void addCallBack(Provider provider, String callBack) {
@@ -419,7 +419,8 @@ public class SocialAuthAdapter {
 				// Creating Popup Window to show List
 				final PopupWindow popupWindow = new PopupWindow(ctx);
 				popupWindow.setFocusable(true);
-				float width = (Util.getScreenWidth(ctx) * 2) / 3;
+				WindowManager wm = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
+				float width = (wm.getDefaultDisplay().getWidth() * 2) / 3;
 				popupWindow.setWidth((int) width);
 				popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 
