@@ -587,7 +587,7 @@ public class SocialAuthAdapter {
 		SocialAuthConfig config = new SocialAuthConfig();
 		Resources resources = ctx.getResources();
 		AssetManager assetManager = resources.getAssets();
-		InputStream inputStream;
+		InputStream inputStream = null;
 		boolean fileExist = false;
 		// Check oauth_consumer.properties file exist
 		try {
@@ -595,7 +595,7 @@ public class SocialAuthAdapter {
 			fileExist = true;
 		} catch (Exception e) {
 			fileExist = false;
-			throw new SocialAuthException("oauth_consumer.properties not found");
+			Log.d("SocialAuthAdapter", "oauth_consumer.properties not found");
 		}
 
 		if (fileExist) {

@@ -125,13 +125,10 @@ public class ShareBarActivity extends Activity {
 			adapter.addConfig(Provider.TWITTER, "5jwyYJia583EEczmdAmlOA", "j0rQkJjTjwVdv7HFiE4zz2qKJKzqjksR2aviVU8fSc",
 					null);
 			adapter.addConfig(Provider.LINKEDIN, "bh82t52rdos6", "zQ1LLrGbhDZ36fH8", null);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		adapter.enable(bar);
-
 	}
 
 	/**
