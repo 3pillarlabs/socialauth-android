@@ -148,9 +148,6 @@ public class ShareButtonActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					adapter.updateStatus(edit.getText().toString(), new MessageListener(), false);
-
-					// to share on multiple providers
-					adapter.updateStatus(edit.getText().toString(), new MessageListener(), false);
 				}
 			});
 

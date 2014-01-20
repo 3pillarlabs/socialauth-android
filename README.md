@@ -11,6 +11,20 @@ With this library, you can:
   *	Import friend contacts of logged in user (Email, Profile URL and Name)
   *	Do much more using our flexible API like extend it for more network
 
+###Whats new in Version 3.1 ?
+   *	Bugs Solved : Twitter Recent API changes fixed
+
+###Whats new in Version 3.0 ?
+  *	New Providers Support : Instagram , Flickr
+  *	New Example : Share- Menu - Now use provides in Android ShareAction Provider. Check wiki and example for use.
+  *	Contacts : Support added for Google Plus, Flickr , Instagram
+  *	Feeds : Support added for Google Plus, Instagram
+  *	Albums : Support added for Google Plus. Download Picasa Albums
+  *	Generic OAuth2 Provider : Users can create own oAuth2 Providers from sdk.
+  *	Bugs Solved : Publish Story bug for Facebook Solved
+  *	Bugs Solved : Get Profile Images for FourSquare
+  *	Bugs Solved : UI issues for Yahoo , Yammer Solved
+
 ###Whats new in Version 2.6 ?
   *	Linkedin Career Plugin Added to show information for job , education , recommendations.
   *	Linkedin feed plugin added.
