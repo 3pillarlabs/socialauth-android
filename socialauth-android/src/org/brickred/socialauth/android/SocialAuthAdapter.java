@@ -368,6 +368,25 @@ public class SocialAuthAdapter {
 							}
 						});
 				final AlertDialog dialog = builder.create();
+				
+				dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+		           	@Override
+		           	public void onCancel(DialogInterface dialog) {
+		           		dialogListener.onCancel();
+		           	}
+		        });
+				
+				dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+		
+		           	@Override
+		           	public void onDismiss(DialogInterface dialog) {
+			           	dialogListener.onBack();
+		           	}
+		        });
+				
+				
+				
 				dialog.show();
 			}
 		});
