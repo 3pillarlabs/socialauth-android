@@ -121,7 +121,7 @@ public class ShareBarActivity extends Activity {
 
 		// Add keys and Secrets
 		try {
-			adapter.addConfig(Provider.FACEBOOK, "392808544102529", "a11c13e793b2b6696bbc036ef5d3ff8f", null);
+			adapter.addConfig(Provider.FACEBOOK, "297841130364674", "dc9c59d0c72d4f2533580e80ba4c2a59", null);
 			adapter.addConfig(Provider.TWITTER, "5jwyYJia583EEczmdAmlOA", "j0rQkJjTjwVdv7HFiE4zz2qKJKzqjksR2aviVU8fSc",
 					null);
 			adapter.addConfig(Provider.LINKEDIN, "bh82t52rdos6", "zQ1LLrGbhDZ36fH8", null);

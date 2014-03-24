@@ -24,7 +24,6 @@
 
 package org.brickred.customui;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -35,7 +34,6 @@ import org.brickred.socialauth.Album;
 import org.brickred.socialauth.Career;
 import org.brickred.socialauth.Contact;
 import org.brickred.socialauth.Feed;
-import org.brickred.socialauth.Photo;
 import org.brickred.socialauth.Profile;
 import org.brickred.socialauth.android.DialogListener;
 import org.brickred.socialauth.android.SocialAuthAdapter;
@@ -94,22 +92,20 @@ public class CustomUI extends Activity {
 
 	// SocialAuth Components
 	private static SocialAuthAdapter adapter;
-	Profile profileMap;
-	List<Photo> photosList;
 
 	// Android Components
-	ListView listview;
-	AlertDialog dialog;
-	TextView title;
-	ProgressDialog mDialog;
-
+	private ListView listview;
+	private AlertDialog dialog;
+	private TextView title;
+	private ProgressDialog mDialog;
+	
 	// Variables
-	boolean status;
-	String providerName;
+	private String providerName;
 	public static int pos;
 	private static final int SELECT_PHOTO = 100;
-	public static Bitmap bitmap;
-
+	private  Bitmap bitmap;
+    private String msg_value;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -313,21 +309,19 @@ public class CustomUI extends Activity {
 					@Override
 					public void onClick(View v) {
 
-						// Taking image from phone gallery
-						Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-						photoPickerIntent.setType("image/*");
-						startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-
-						if (bitmap != null) {
-							mDialog.show();
-							try {
-								adapter.uploadImageAsync(edit.getText().toString(), "icon.png", bitmap, 0,
-										new UploadImageListener());
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+						if(isEmpty(edit))
+						{
+							Toast.makeText(CustomUI.this, "Please fill message", Toast.LENGTH_SHORT).show();
 						}
-						imgDialog.dismiss();
+						else
+						{
+							imgDialog.dismiss();
+							msg_value =  edit.getText().toString();
+							// Taking image from phone gallery
+							Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+							photoPickerIntent.setType("image/*");
+							startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+						}
 					}
 				});
 
@@ -520,6 +514,10 @@ public class CustomUI extends Activity {
 		public void onError(SocialAuthError e) {
 		}
 	}
+	
+	public boolean isEmpty(EditText etText) {
+        return etText.getText().toString().trim().length() == 0;
+    }
 
 	// To receive the feed response after authentication
 	private final class CareerListener implements SocialAuthListener<Career> {
@@ -553,10 +551,12 @@ public class CustomUI extends Activity {
 				try {
 					imageStream = getContentResolver().openInputStream(selectedImage);
 					bitmap = BitmapFactory.decodeStream(imageStream);
-				} catch (FileNotFoundException e) {
+					mDialog.show();
+					adapter.uploadImageAsync(msg_value, "icon.png", bitmap, 0,
+									new UploadImageListener());
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 			}
 		}
 	}

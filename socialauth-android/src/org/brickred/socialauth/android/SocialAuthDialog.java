@@ -243,8 +243,18 @@ public class SocialAuthDialog extends Dialog {
 						public void run() {
 							try {
 
-								AuthProvider auth = mSocialAuthManager.connect(params);
-								writeToken(auth);
+								if(mProviderName.toString().equalsIgnoreCase("facebook"))
+								{
+									Log.d("SocialAuth Android", "success");
+									AccessGrant  accessGrant = createAccessGrant(params);
+									AuthProvider auth =  mSocialAuthManager.connect(accessGrant); 
+									writeToken(auth);
+								}
+								else
+								{
+									AuthProvider auth = mSocialAuthManager.connect(params);
+									writeToken(auth);
+								}
 
 								handler.post(new Runnable() {
 									@Override
@@ -495,6 +505,30 @@ public class SocialAuthDialog extends Dialog {
 		edit.commit();
 
 	}
+	
+	/**
+	 * Internal Method to create new Create accessGrant 
+	 * 
+	 * @param params
+	 *            
+	 */
+	private AccessGrant createAccessGrant(Map<String, String> params)
+	{
+		AccessGrant accessGrant= new AccessGrant();
+		if(params.get("access_token") != null)
+		{
+			String accessToken = params.get("access_token");
+			Integer expires = null;
+			if (params.get("expires") != null) {
+				expires = new Integer(params.get("expires"));
+			}
+			accessGrant.setKey(accessToken);
+			accessGrant.setAttribute("expires", expires);
+		}
+		accessGrant.setProviderId(mProviderName.toString());
+		return accessGrant;
+	}
+
 
 	/**
 	 * Workaround for Null pointer exception in WebView.onWindowFocusChanged in

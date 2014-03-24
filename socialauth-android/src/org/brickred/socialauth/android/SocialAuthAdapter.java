@@ -89,7 +89,7 @@ import android.widget.PopupWindow;
  * Twitter, LinkedIn, MySpace, Yahoo, Google FourSquare, Runkeeper, SalesForce
  * and Yammer. <br>
  * 
- * Currently it can be used in three different ways. First, it can be attached
+ * Currently it can be used in four different ways. First, it can be attached
  * with a Button that user may click. Clicking will open a menu with various
  * social networks listed that the user can click on. Clicking on any network
  * opens a dialog for authentication with that social network. Once the user is
@@ -104,6 +104,12 @@ import android.widget.PopupWindow;
  * update status, get profile, contacts, user feeds, album feeds and upload
  * images. <br>
  * 
+ * Thirdly, it can be used as shareactionprovider in actionbar.. Clicking on it it will show list 
+ * of all providers along with other apps which are use by ACTION_SEND intent. The socialauth
+ * providers will be shown is added else it will default application. For example
+ * if you added socialauth facebook provider then it will show  socialauth facebook
+ * provider else it will show default facebook application.<br>
+ * 
  * Lastly, you can just launch the authentication dialog directly from any event
  * you prefer. Examples for all of these ways is provided in the examples
  * directory of the SocialAuth Android SDK
@@ -112,7 +118,6 @@ import android.widget.PopupWindow;
  * @author abhinav.maheswari@3pillarglobal.com
  * 
  */
-
 public class SocialAuthAdapter {
 
 	/**
@@ -782,7 +787,8 @@ public class SocialAuthAdapter {
 	public boolean signOut(Context ctx, String providerName) {
 
 		// remove cookies
-		CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(ctx);
+		Context appContext = ctx.getApplicationContext();
+		CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(appContext);
 		CookieManager cookieManager = CookieManager.getInstance();
 		cookieManager.removeAllCookie();
 
@@ -791,7 +797,7 @@ public class SocialAuthAdapter {
 			if (socialAuthManager.getConnectedProvidersIds().contains(providerName))
 				socialAuthManager.disconnectProvider(providerName);
 
-			Editor edit = PreferenceManager.getDefaultSharedPreferences(ctx).edit();
+			Editor edit = PreferenceManager.getDefaultSharedPreferences(appContext).edit();
 			edit.remove(providerName + " key");
 			edit.commit();
 
