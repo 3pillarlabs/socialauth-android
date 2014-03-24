@@ -1,17 +1,17 @@
 ===============================================================================
-WELCOME to SocialAuth Android SDK version 3.1
+WELCOME to SocialAuth Android SDK version 3.2
 ===============================================================================
 
 The SDK contains all the material you need to use SocialAuth Android project.
 The directories are as follows:
 
-1. libs - This contains socialauth-android-3.1.jar and socialauth-4.4.jar. You need 
+1. libs - This contains socialauth-android-3.2.jar and socialauth-4.4.jar. You need 
 to include both of these in your application.
 
 2. assets - Contains oauth_consumer.properties containing sample key and secrets
 which can use for testing purposes
 
-3. src - This contains the entire socialauth-android-3.1 Eclipse project if you
+3. src - This contains the entire socialauth-android-3.2 Eclipse project if you
 would like to debug or you need to make some changes. Most of the time you
 should not need to.
 

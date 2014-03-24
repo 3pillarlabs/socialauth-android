@@ -11,6 +11,13 @@ With this library, you can:
   *	Import friend contacts of logged in user (Email, Profile URL and Name)
   *	Do much more using our flexible API like extend it for more network
 
+###Whats new in Version 3.2 ?
+   *	Bugs Solved :  Facebook issue solved. Now we are using native web view login. please check the wiki to create Facebook app using native flow.
+   *    Bugs Solved :  Foursquare issue fixed
+   *    Bugs Solved :  Signout bug fixed
+   *    Bugs Solved :  Custom -UI example upload image bug fixed
+   *    Documentation Guides for Facebook, Google Plus, Flickr , Share-Menu  and more 
+    
 ###Whats new in Version 3.1 ?
    *	Bugs Solved : Twitter Recent API changes fixed
 
@@ -46,3 +53,5 @@ Once SocialAuth Android is integrated into your application, following is the au
  * Now user can call SocialAuth Android library to get information about user profile, gets contacts list or share status to friends.
  
 ![UserFlow](https://raw.github.com/wiki/3pillarlabs/socialauth-android/images/socialauthandroid-process.png)
+
+SocialAuth Android is distrubuted under MIT License.
