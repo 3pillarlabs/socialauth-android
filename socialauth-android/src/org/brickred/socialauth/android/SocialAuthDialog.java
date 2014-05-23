@@ -65,8 +65,7 @@ import org.brickred.socialauth.SocialAuthManager;
  *
  * @author vineet.aggarwal@3pillarglobal.com
  * @author abhinav.maheswari@3pillarglobal.com
- * @author github@fineswap.com
- *
+ * @author Noor Dawod <github@fineswap.com>
  */
 public class SocialAuthDialog extends SocialAuthFactory.InteractivePage {
 

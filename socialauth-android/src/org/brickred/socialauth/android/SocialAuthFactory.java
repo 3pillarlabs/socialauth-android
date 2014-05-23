@@ -31,7 +31,7 @@ import org.brickred.socialauth.SocialAuthManager;
  * Factorial class for SocialAuth's components. Enables users to provide their
  * own implementation for various UI components which are used in the library.
  *
- * @author github@fineswap.com
+ * @author Noor Dawod <github@fineswap.com>
  */
 public class SocialAuthFactory {
 

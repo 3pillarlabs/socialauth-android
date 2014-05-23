@@ -92,10 +92,10 @@ import android.widget.PopupWindow;
  * Currently it can be used in four different ways. First, it can be attached
  * with a Button that user may click. Clicking will open a menu with various
  * social networks listed that the user can click on. Clicking on any network
- * opens a dialog for authentication with that social network. Once the user is
- * authenticated, you can use various methods from the AuthProvider interface to
- * update status, get profile, contacts, user feeds, album feeds and upload
- * images. <br>
+ * opens an interactive page (user-customizable) for authentication with that
+ * social network. Once the user is authenticated, you can use various methods
+ * from the AuthProvider interface to update status, get profile, contacts,
+ * user feeds, album feeds and upload images. <br>
  *
  * Secondly, it can be attached to a LinearLayout for creating a Bar with
  * several buttons, one for each social network. Clicking on these icons will
@@ -116,6 +116,7 @@ import android.widget.PopupWindow;
  *
  * @author vineet.aggarwal@3pillarglobal.com
  * @author abhinav.maheswari@3pillarglobal.com
+ * @author Noor Dawod <github@fineswap.com>
  *
  */
 public class SocialAuthAdapter {
@@ -353,7 +354,7 @@ public class SocialAuthAdapter {
 	 * Sets the current {@link SocialAuthFactory.InteractivePage} implementation
 	 * attached to this adapter.
 	 *
-	 * @param dialog New dialog implementation
+	 * @param interactive New {@link SocialAuthFactory.InteractivePage} implementation
 	 */
 	public void setInteractivePage(SocialAuthFactory.InteractivePage interactive) {
 		if (currentInteractivePage != null) {
@@ -670,16 +671,16 @@ public class SocialAuthAdapter {
 	}
 
 	/**
-	 * Internal method to handle dialog-based authentication backend for
-	 * authorize().
+	 * Internal method to handle InteractivePage-based authentication
+	 * backend for authorize().
 	 *
 	 * @param context
-	 *            The Android Activity that will parent the auth dialog.
+	 *            The Android Activity that will parent the interactive page.
 	 * @param provider
 	 *            Provider being authenticated
 	 *
 	 */
-	private void startDialogAuth(
+	private void startInteractivePageAuth(
 		final Context context,
 		final Provider provider
 	) {
@@ -736,7 +737,7 @@ public class SocialAuthAdapter {
 	 * and open webview
 	 *
 	 * @param context
-	 *            The Android Activity that will parent the auth dialog.
+	 *            The Android Activity that will parent the interactive page.
 	 * @param provider
 	 *            Provider being authenticated
 	 */
@@ -815,7 +816,7 @@ public class SocialAuthAdapter {
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
-							startDialogAuth(ctx, currentProvider);
+							startInteractivePageAuth(ctx, currentProvider);
 
 						}
 					}
@@ -831,7 +832,7 @@ public class SocialAuthAdapter {
 		// If Access Token is not available , Open Interactive Page
 		else {
 			Log.d("SocialAuthAdapter", "Starting webview for authentication");
-			startDialogAuth(ctx, currentProvider);
+			startInteractivePageAuth(ctx, currentProvider);
 		}
 
 	}
