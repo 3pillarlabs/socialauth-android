@@ -24,19 +24,16 @@
 
 package org.brickred.socialauth.android;
 
+import android.app.Dialog;
 import java.util.Map;
 
 import org.brickred.socialauth.AuthProvider;
-import org.brickred.socialauth.SocialAuthManager;
-import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
 import org.brickred.socialauth.util.AccessGrant;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences.Editor;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Picture;
@@ -59,39 +56,32 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import org.brickred.socialauth.SocialAuthManager;
 
 /**
  * Dialog that wraps a Web view for authenticating with the given social
  * network. All the OAuth redirection happens over here and the success and
  * failure are handed over to the listener
- * 
+ *
  * @author vineet.aggarwal@3pillarglobal.com
  * @author abhinav.maheswari@3pillarglobal.com
- * 
+ * @author github@fineswap.com
+ *
  */
-public class SocialAuthDialog extends Dialog {
+public class SocialAuthDialog extends SocialAuthFactory.InteractivePage {
 
 	// Variables
-	public static final int BLUE = 0xFF6D84B4;
-	public static final int MARGIN = 4;
-	public static final int PADDING = 2;
+	private static final int BLUE = 0xFF6D84B4;
+	private static final int MARGIN = 4;
+	private static final int PADDING = 2;
+	private static final String DISPLAY_STRING = "touch";
 
-	public static float width = 40;
-	public static float height = 60;
-
-	public static final float[] DIMENSIONS_DIFF_LANDSCAPE = { width, height };
-	public static final float[] DIMENSIONS_DIFF_PORTRAIT = { width, height };
-
-	public static boolean titleStatus = false;
-	public static final String DISPLAY_STRING = "touch";
-
-	private final String mUrl;
 	private String newUrl;
 	private int count;
 
 	// Android Components
+	private final Dialog mDialog;
 	private TextView mTitle;
-	private final DialogListener mListener;
 	private ProgressDialog mSpinner;
 	private CustomWebView mWebView;
 	private LinearLayout mContent;
@@ -103,13 +93,28 @@ public class SocialAuthDialog extends Dialog {
 	static final FrameLayout.LayoutParams WRAP = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 			ViewGroup.LayoutParams.WRAP_CONTENT);
 
-	// SocialAuth Components
-	private final SocialAuthManager mSocialAuthManager;
-	private final Provider mProviderName;
+
+	@Override
+	public Context getContext() {
+		return mDialog.getContext();
+	}
+
+	@Override
+	public void show() {
+		mDialog.show();
+	}
+
+	@Override
+	public void dismiss() {
+		mDialog.dismiss();
+	}
+
 
 	/**
 	 * Constructor for the dialog
-	 * 
+	 *
+	 * @deprecated Use {@link SocialAuthFactory.InteractivePage}
+	 *
 	 * @param context
 	 *            Parent component that opened this dialog
 	 * @param url
@@ -121,101 +126,21 @@ public class SocialAuthDialog extends Dialog {
 	 * @param socialAuthManager
 	 *            Underlying SocialAuth framework for OAuth
 	 */
-	public SocialAuthDialog(Context context, String url, Provider providerName, DialogListener listener,
-			SocialAuthManager socialAuthManager) {
-		super(context);
-		mProviderName = providerName;
-		mUrl = url;
-		mListener = listener;
-		mSocialAuthManager = socialAuthManager;
-	}
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		handler = new Handler();
-		Util.getDisplayDpi(getContext());
-
-		mSpinner = new ProgressDialog(getContext());
-		mSpinner.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		mSpinner.setMessage("Loading...");
-		mSpinner.setCancelable(true);
-
-		mContent = new LinearLayout(getContext());
-		mContent.setOrientation(LinearLayout.VERTICAL);
-		setUpTitle();
-		setUpWebView();
-
-		Display display = getWindow().getWindowManager().getDefaultDisplay();
-		final float scale = getContext().getResources().getDisplayMetrics().density;
-		int orientation = getContext().getResources().getConfiguration().orientation;
-		float[] dimensions = (orientation == Configuration.ORIENTATION_LANDSCAPE) ? DIMENSIONS_DIFF_LANDSCAPE
-				: DIMENSIONS_DIFF_PORTRAIT;
-
-		addContentView(mContent, new LinearLayout.LayoutParams(display.getWidth()
-				- ((int) (dimensions[0] * scale + 0.5f)), display.getHeight() - ((int) (dimensions[1] * scale + 0.5f))));
-
-		mSpinner.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialogInterface) {
-				mWebView.stopLoading();
-				mListener.onBack();
-				SocialAuthDialog.this.dismiss();
-			}
-		});
-
-		this.setOnKeyListener(new DialogInterface.OnKeyListener() {
-			@Override
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-					mWebView.stopLoading();
-					dismiss();
-					mListener.onBack();
-					return true;
-				}
-				return false;
-			}
-		});
-	}
-
-	/**
-	 * Sets title and icon of provider
-	 * 
-	 */
-
-	private void setUpTitle() {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		mTitle = new TextView(getContext());
-		int res = getContext().getResources().getIdentifier(mProviderName.toString(), "drawable",
-				getContext().getPackageName());
-		icon = getContext().getResources().getDrawable(res);
-		StringBuilder sb = new StringBuilder();
-		sb.append(mProviderName.toString().substring(0, 1).toUpperCase());
-		sb.append(mProviderName.toString().substring(1, mProviderName.toString().length()));
-		mTitle.setText(sb.toString());
-		mTitle.setGravity(Gravity.CENTER_VERTICAL);
-		mTitle.setTextColor(Color.WHITE);
-		mTitle.setTypeface(Typeface.DEFAULT_BOLD);
-		mTitle.setBackgroundColor(BLUE);
-		mTitle.setPadding(MARGIN + PADDING, MARGIN, MARGIN, MARGIN);
-		mTitle.setCompoundDrawablePadding(MARGIN + PADDING);
-		mTitle.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-
-		if (!titleStatus)
-			mContent.addView(mTitle);
+	public SocialAuthDialog(Context context) {
+		mDialog = new CustomDialog(context);
 	}
 
 	/**
 	 * Set up WebView to load the provider URL
-	 * 
+	 *
 	 */
 	private void setUpWebView() {
 		mWebView = new CustomWebView(getContext());
 		mWebView.setVerticalScrollBarEnabled(false);
 		mWebView.setHorizontalScrollBarEnabled(false);
-		mWebView.setWebViewClient(new SocialAuthDialog.SocialAuthWebViewClient());
+		mWebView.setWebViewClient(new SocialAuthWebViewClient());
 		mWebView.getSettings().setJavaScriptEnabled(true);
-		mWebView.loadUrl(mUrl);
+		mWebView.loadUrl(getURL());
 		mWebView.setLayoutParams(FILL);
 		mContent.addView(mWebView);
 	}
@@ -225,9 +150,14 @@ public class SocialAuthDialog extends Dialog {
 	 */
 
 	private class SocialAuthWebViewClient extends WebViewClient {
+
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
 			Log.d("SocialAuth-WebView", "Override url: " + url);
+
+			final SocialAuthAdapter.Provider mProviderName = getProvider();
+			final DialogListener mListener = getListener();
+			final SocialAuthManager mAuthManager = getAuthManager();
 
 			if (url.startsWith(mProviderName.getCallBackUri())
 					&& (mProviderName.toString().equalsIgnoreCase("facebook") || mProviderName.toString()
@@ -247,12 +177,12 @@ public class SocialAuthDialog extends Dialog {
 								{
 									Log.d("SocialAuth Android", "success");
 									AccessGrant  accessGrant = createAccessGrant(params);
-									AuthProvider auth =  mSocialAuthManager.connect(accessGrant); 
+									AuthProvider auth =  mAuthManager.connect(accessGrant);
 									writeToken(auth);
 								}
 								else
 								{
-									AuthProvider auth = mSocialAuthManager.connect(params);
+									AuthProvider auth = mAuthManager.connect(params);
 									writeToken(auth);
 								}
 
@@ -291,7 +221,7 @@ public class SocialAuthDialog extends Dialog {
 				return true;
 			} else if (url.startsWith("http://runkeeper.com/home")) {
 				Log.d("Again Calling auth URL ", "SocialAuth");
-				mWebView.loadUrl(mUrl);
+				mWebView.loadUrl(getURL());
 				return false;
 			}
 
@@ -322,13 +252,15 @@ public class SocialAuthDialog extends Dialog {
 			Log.d("SocialAuth-WebView", "Inside OnReceived Error");
 			Log.d("SocialAuth-WebView", String.valueOf(errorCode));
 			super.onReceivedError(view, errorCode, description, failingUrl);
-			mListener.onError(new SocialAuthError(description, new Exception(failingUrl)));
+			getListener().onError(new SocialAuthError(description, new Exception(failingUrl)));
 			SocialAuthDialog.this.dismiss();
 		}
 
 		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
 			super.onPageStarted(view, url, favicon);
+
+			final SocialAuthAdapter.Provider mProviderName = getProvider();
 
 			Log.d("SocialAuth-WebView", "onPageStart:" + url);
 
@@ -387,6 +319,7 @@ public class SocialAuthDialog extends Dialog {
 			// For Linkedin, MySpace, Runkeeper - Calls onPageStart to
 			// authorize.
 			if (url.startsWith(mProviderName.getCallBackUri())) {
+				final DialogListener mListener = getListener();
 				if (url.startsWith(mProviderName.getCancelUri())) {
 					mListener.onCancel();
 				} else {
@@ -395,7 +328,7 @@ public class SocialAuthDialog extends Dialog {
 						@Override
 						public void run() {
 							try {
-								AuthProvider auth = mSocialAuthManager.connect(params);
+								AuthProvider auth = getAuthManager().connect(params);
 
 								// Don't save token for yahoo, yammer,
 								// salesforce
@@ -432,6 +365,8 @@ public class SocialAuthDialog extends Dialog {
 
 			super.onPageFinished(view, url);
 
+			final SocialAuthAdapter.Provider mProviderName = getProvider();
+
 			// workaround for yahoo and runkeeper
 			mWebView.setPictureListener(new PictureListener() {
 				@Override
@@ -452,7 +387,7 @@ public class SocialAuthDialog extends Dialog {
 					if (mProviderName.toString().equalsIgnoreCase("runkeeper")
 							&& (url.startsWith("http://m.facebook.com/login.php") || url
 									.startsWith("https://m.facebook.com/dialog/oauth"))) {
-						// Set Zoom Density of FaceBook Dialog
+						// Set Zoom Density of FaceBook Interactive Page
 						mWebView.getSettings().setDefaultZoom(ZoomDensity.MEDIUM);
 					}
 				}
@@ -470,13 +405,14 @@ public class SocialAuthDialog extends Dialog {
 	/**
 	 * Internal Method to create new File in internal memory for each provider
 	 * and save accessGrant
-	 * 
+	 *
 	 * @param auth
 	 *            AuthProvider
 	 */
 
 	private void writeToken(AuthProvider auth) {
 
+		SocialAuthAdapter.Provider mProviderName = getProvider();
 		AccessGrant accessGrant = auth.getAccessGrant();
 		String key = accessGrant.getKey();
 		String secret = accessGrant.getSecret();
@@ -505,12 +441,12 @@ public class SocialAuthDialog extends Dialog {
 		edit.commit();
 
 	}
-	
+
 	/**
-	 * Internal Method to create new Create accessGrant 
-	 * 
+	 * Internal Method to create new Create accessGrant
+	 *
 	 * @param params
-	 *            
+	 *
 	 */
 	private AccessGrant createAccessGrant(Map<String, String> params)
 	{
@@ -525,7 +461,7 @@ public class SocialAuthDialog extends Dialog {
 			accessGrant.setKey(accessToken);
 			accessGrant.setAttribute("expires", expires);
 		}
-		accessGrant.setProviderId(mProviderName.toString());
+		accessGrant.setProviderId(getProvider().toString());
 		return accessGrant;
 	}
 
@@ -559,4 +495,87 @@ public class SocialAuthDialog extends Dialog {
 			}
 		}
 	}
+
+	private class CustomDialog extends Dialog {
+
+		public CustomDialog(Context context) {
+			super(context);
+		}
+
+		@Override
+		protected void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			handler = new Handler();
+			Util.getDisplayDpi(getContext());
+
+			mSpinner = new ProgressDialog(getContext());
+			mSpinner.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			mSpinner.setMessage("Loading...");
+			mSpinner.setCancelable(true);
+
+			mContent = new LinearLayout(getContext());
+			mContent.setOrientation(LinearLayout.VERTICAL);
+			setUpTitle();
+			setUpWebView();
+
+			final Display display = getWindow().getWindowManager().getDefaultDisplay();
+			final DialogListener mListener = getListener();
+
+			addContentView(mContent, new LinearLayout.LayoutParams(
+				display.getWidth(), display.getHeight()));
+
+			mSpinner.setOnCancelListener(new OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialogInterface) {
+					mWebView.stopLoading();
+					mListener.onBack();
+					SocialAuthDialog.this.dismiss();
+				}
+			});
+
+			this.setOnKeyListener(new DialogInterface.OnKeyListener() {
+				@Override
+				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+					if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+						mWebView.stopLoading();
+						dismiss();
+						mListener.onBack();
+						return true;
+					}
+					return false;
+				}
+			});
+		}
+
+		/**
+		 * Sets title and icon of provider
+		 *
+		 */
+
+		void setUpTitle() {
+			requestWindowFeature(Window.FEATURE_NO_TITLE);
+			SocialAuthAdapter.Provider mProviderName = getProvider();
+			mTitle = new TextView(getContext());
+			int res = getContext().getResources().getIdentifier(mProviderName.toString(), "drawable",
+					getContext().getPackageName());
+			icon = getContext().getResources().getDrawable(res);
+			StringBuilder sb = new StringBuilder();
+			sb.append(mProviderName.toString().substring(0, 1).toUpperCase());
+			sb.append(mProviderName.toString().substring(1, mProviderName.toString().length()));
+			mTitle.setText(sb.toString());
+			mTitle.setGravity(Gravity.CENTER_VERTICAL);
+			mTitle.setTextColor(Color.WHITE);
+			mTitle.setTypeface(Typeface.DEFAULT_BOLD);
+			mTitle.setBackgroundColor(BLUE);
+			mTitle.setPadding(MARGIN + PADDING, MARGIN, MARGIN, MARGIN);
+			mTitle.setCompoundDrawablePadding(MARGIN + PADDING);
+			mTitle.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+
+			if (!isTitleVisible()) {
+				mContent.addView(mTitle);
+			}
+		}
+
+	}
+
 }

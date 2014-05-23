@@ -82,13 +82,13 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 
 /**
- * 
+ *
  * Main class of the SocialAuth Android SDK. Wraps a user interface component
  * with the SocialAuth functionality of updating status, getting user profiles,
  * contacts, upload images, get user feeds, get user albums on Facebook,
  * Twitter, LinkedIn, MySpace, Yahoo, Google FourSquare, Runkeeper, SalesForce
  * and Yammer. <br>
- * 
+ *
  * Currently it can be used in four different ways. First, it can be attached
  * with a Button that user may click. Clicking will open a menu with various
  * social networks listed that the user can click on. Clicking on any network
@@ -96,34 +96,34 @@ import android.widget.PopupWindow;
  * authenticated, you can use various methods from the AuthProvider interface to
  * update status, get profile, contacts, user feeds, album feeds and upload
  * images. <br>
- * 
+ *
  * Secondly, it can be attached to a LinearLayout for creating a Bar with
  * several buttons, one for each social network. Clicking on these icons will
  * open a dialog which will authenticate the user and one the user is
  * authenticated, you can use various methods from the AuthProvider interface to
  * update status, get profile, contacts, user feeds, album feeds and upload
  * images. <br>
- * 
- * Thirdly, it can be used as shareactionprovider in actionbar.. Clicking on it it will show list 
+ *
+ * Thirdly, it can be used as shareactionprovider in actionbar.. Clicking on it it will show list
  * of all providers along with other apps which are use by ACTION_SEND intent. The socialauth
  * providers will be shown is added else it will default application. For example
  * if you added socialauth facebook provider then it will show  socialauth facebook
  * provider else it will show default facebook application.<br>
- * 
+ *
  * Lastly, you can just launch the authentication dialog directly from any event
  * you prefer. Examples for all of these ways is provided in the examples
  * directory of the SocialAuth Android SDK
- * 
+ *
  * @author vineet.aggarwal@3pillarglobal.com
  * @author abhinav.maheswari@3pillarglobal.com
- * 
+ *
  */
 public class SocialAuthAdapter {
 
 	/**
 	 * Enum of all supported providers containing provider name , callback url
 	 * and cancel url
-	 * 
+	 *
 	 */
 	public enum Provider {
 		FACEBOOK(Constants.FACEBOOK, "fbconnect://success", "fbconnect://success?error_reason"), TWITTER(
@@ -151,13 +151,13 @@ public class SocialAuthAdapter {
 				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), EMAIL(SHARE_MAIL, "",
 				""), MMS(SHARE_MMS, "", ""), GENERIC("", "", "");
 
+		private final String cancelUri;
 		private String name;
-		private String cancelUri;
 		private String callbackUri;
 
 		/**
 		 * Constructor with unique string representing the provider
-		 * 
+		 *
 		 * @param name
 		 */
 		Provider(String name, String callbackUri, String cancelUri) {
@@ -223,6 +223,9 @@ public class SocialAuthAdapter {
 	// provides currentprovider information
 	private Provider currentProvider;
 
+	// provides currentprovider information
+	private SocialAuthFactory.InteractivePage currentInteractivePage;
+
 	// contains array of providers
 	private final Provider authProviders[];
 
@@ -239,7 +242,7 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param listener
 	 *            Listener for the adapter events
 	 */
@@ -253,7 +256,7 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Attaches a new listener to the adapter. Define logos and providers.
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void setListener(DialogListener listener) {
@@ -262,7 +265,7 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Enables a provider
-	 * 
+	 *
 	 * @param provider
 	 *            Provider to be enables
 	 * @param logo
@@ -276,7 +279,7 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Adds callback URL
-	 * 
+	 *
 	 * @param provider
 	 *            Provider to be enables
 	 * @param callBack
@@ -293,7 +296,7 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Adds Provider Name
-	 * 
+	 *
 	 * @param provider
 	 *            Provider to be enables
 	 * @param name
@@ -310,7 +313,7 @@ public class SocialAuthAdapter {
 	/**
 	 * Returns the last authenticated provider. Please use the SocialAuth API to
 	 * find out about the methods available in this interface
-	 * 
+	 *
 	 * @return Provider object
 	 */
 	public AuthProvider getCurrentProvider() {
@@ -323,8 +326,56 @@ public class SocialAuthAdapter {
 	}
 
 	/**
+	 * Sets the current Dialog attached to this adapter.
+	 *
+	 * @deprecated Use {@link #setInteractivePage(org.brickred.socialauth.android.SocialAuthFactory.InteractivePage)}
+	 * @param dialog New dialog implementation
+	 */
+	public void setCurrentDialog(SocialAuthFactory.InteractivePage dialog) {
+		if (currentInteractivePage != null) {
+			currentInteractivePage.dismiss();
+			currentInteractivePage = null;
+		}
+		currentInteractivePage = dialog;
+	}
+
+	/**
+	 * Returns the current Dialog attached to this adapter.
+	 *
+	 * @deprecated Use {@link #getInteractivePage()}
+	 * @return SocialAuthFactory.InteractivePage implementation
+	 */
+	public SocialAuthFactory.InteractivePage getCurrentDialog() {
+		return currentInteractivePage;
+	}
+
+	/**
+	 * Sets the current {@link SocialAuthFactory.InteractivePage} implementation
+	 * attached to this adapter.
+	 *
+	 * @param dialog New dialog implementation
+	 */
+	public void setInteractivePage(SocialAuthFactory.InteractivePage interactive) {
+		if (currentInteractivePage != null) {
+			currentInteractivePage.dismiss();
+			currentInteractivePage = null;
+		}
+		currentInteractivePage = interactive;
+	}
+
+	/**
+	 * Returns the current {@link SocialAuthFactory.InteractivePage} implementation
+	 * attached to this adapter.
+	 *
+	 * @return SocialAuthFactory.InteractivePage implementation
+	 */
+	public SocialAuthFactory.InteractivePage getInteractivePage() {
+		return currentInteractivePage;
+	}
+
+	/**
 	 * Enables a button with the SocialAuth menu
-	 * 
+	 *
 	 * @param sharebtn
 	 *            The button that will be clicked by user to start sharing
 	 */
@@ -386,7 +437,7 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Enables a button with the SocialAuth menu
-	 * 
+	 *
 	 * @param actionView
 	 *            The button on providersthat will be clicked by user to show
 	 *            list of providers
@@ -462,7 +513,7 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Enables a LinearLayout with SocialAuth functionality
-	 * 
+	 *
 	 * @param linearbar
 	 *            The LinearLayout which is created as a bar
 	 */
@@ -506,7 +557,7 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Method to handle configuration , Use directly for CustomUI
-	 * 
+	 *
 	 * @param ctx
 	 *            activity context
 	 * @param provider
@@ -561,7 +612,7 @@ public class SocialAuthAdapter {
 	/**
 	 * Method to add user defined configuration. Please delete
 	 * oauth_consumers.properties before using this method.
-	 * 
+	 *
 	 * @param provider
 	 *            name of provider
 	 * @param key
@@ -570,7 +621,7 @@ public class SocialAuthAdapter {
 	 *            provider secret
 	 * @param permissions
 	 *            permissions for provider
-	 * 
+	 *
 	 */
 
 	public void addConfig(Provider provider, String key, String secret, String permissions) throws Exception {
@@ -582,10 +633,10 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Internal method to load config
-	 * 
+	 *
 	 * @param context
 	 *            The Android Activity context
-	 * 
+	 *
 	 */
 
 	private void loadConfig(Context ctx) throws Exception {
@@ -621,14 +672,17 @@ public class SocialAuthAdapter {
 	/**
 	 * Internal method to handle dialog-based authentication backend for
 	 * authorize().
-	 * 
+	 *
 	 * @param context
 	 *            The Android Activity that will parent the auth dialog.
 	 * @param provider
 	 *            Provider being authenticated
-	 * 
+	 *
 	 */
-	private void startDialogAuth(final Context context, final Provider provider) {
+	private void startDialogAuth(
+		final Context context,
+		final Provider provider
+	) {
 		CookieSyncManager.createInstance(context);
 
 		Runnable runnable = new Runnable() {
@@ -645,12 +699,30 @@ public class SocialAuthAdapter {
 							Log.d("SocialAuthAdapter", "Loading URL : " + url);
 							String callbackUri = provider.getCallBackUri();
 							Log.d("SocialAuthAdapter", "Callback URI : " + callbackUri);
-							// start webview dialog
-							new SocialAuthDialog(context, url, provider, dialogListener, socialAuthManager).show();
+
+							SocialAuthFactory.InteractivePage interactivePage = getInteractivePage();
+
+							// Configure interactive session.
+							interactivePage.setURL(url);
+							interactivePage.setProvider(provider);
+							interactivePage.setListener(dialogListener);
+							interactivePage.setAuthManager(socialAuthManager);
+
+							// Show the session page.
+							interactivePage.show();
 						}
 					});
 				} catch (Exception e) {
 					dialogListener.onError(new SocialAuthError("URL Authentication error", e));
+				}
+			}
+
+			SocialAuthFactory.InteractivePage getInteractivePage() {
+				if (currentInteractivePage == null) {
+					Log.w("SocialAuthAdapter", "An InteractivePage implementation has not been set, using default Dialog-based one.");
+					return new SocialAuthDialog(context);
+				} else {
+					return currentInteractivePage;
 				}
 			}
 		};
@@ -662,7 +734,7 @@ public class SocialAuthAdapter {
 	 * Internal method to connect provider. The method check for access token If
 	 * available it connects manager with AccessGrant else create new manager
 	 * and open webview
-	 * 
+	 *
 	 * @param context
 	 *            The Android Activity that will parent the auth dialog.
 	 * @param provider
@@ -756,7 +828,7 @@ public class SocialAuthAdapter {
 				e.printStackTrace();
 			}
 		}
-		// If Access Token is not available , Open Authentication Dialog
+		// If Access Token is not available , Open Interactive Page
 		else {
 			Log.d("SocialAuthAdapter", "Starting webview for authentication");
 			startDialogAuth(ctx, currentProvider);
@@ -765,23 +837,22 @@ public class SocialAuthAdapter {
 	}
 
 	/**
-	 * Sets Size of Dialog. Max value for Portrait and Landscape - 40,60
+	 * Sets Size of Interactive Page. Max value for Portrait and Landscape - 40,60
+	 *
+	 * @deprecated This call does nothing now; controlling size of the
+	 * {@link SocialAuthFactory.InteractivePage} page is up to the user
+	 *
+	 * @param width Width of dialog
+	 * @param height Height of dialog
 	 */
 	public void setDialogSize(float width, float height) {
-		if (width < 0 || width > 40)
-			SocialAuthDialog.width = 40;
-		else
-			SocialAuthDialog.width = width;
-
-		if (height < 0 || height > 60)
-			SocialAuthDialog.height = 60;
-		else
-			SocialAuthDialog.height = height;
 	}
 
 	/**
 	 * Signs out the user out of current provider
-	 * 
+	 *
+	 * @param ctx A valid context
+	 * @param providerName Provider to sign out
 	 * @return Status of signing out
 	 */
 	public boolean signOut(Context ctx, String providerName) {
@@ -812,18 +883,20 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Disable title of dialog.
-	 * 
+	 *
 	 * @param titleStatus
 	 *            default false , Set true to disable dialog titlebar
-	 * 
+	 * @deprecated Use {@link SocialAuthFactory.Dialog#setTitleVisibility(boolean)
 	 */
 	public void setTitleVisible(boolean titleStatus) {
-		SocialAuthDialog.titleStatus = titleStatus;
+		if (currentInteractivePage != null) {
+			currentInteractivePage.setTitleVisibility(titleStatus);
+		}
 	}
 
 	/**
 	 * Method to update status of user
-	 * 
+	 *
 	 * @param message
 	 *            The message to be send.
 	 * @param listener
@@ -875,7 +948,7 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Method to share message with link preview on facebook only
-	 * 
+	 *
 	 * @param message
 	 *            The message to be send.
 	 * @param name
@@ -954,7 +1027,7 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Makes HTTP request to a given URL.It attaches access token in URL.
-	 * 
+	 *
 	 * @param url
 	 *            URL to make HTTP request.
 	 * @param methodType
@@ -1246,7 +1319,7 @@ public class SocialAuthAdapter {
 
 	/**
 	 * Synchronous Method to upload image on provider
-	 * 
+	 *
 	 * @param message
 	 *            message to be attached with image
 	 * @param fileName
@@ -1255,7 +1328,7 @@ public class SocialAuthAdapter {
 	 *            image bitmap to be uploaded
 	 * @param quality
 	 *            image quality for jpeg , enter 0 for png
-	 * 
+	 *
 	 *            Returns result in onReceive()
 	 */
 	public Integer uploadImage(String message, String fileName, Bitmap bitmap, int quality) throws Exception {
@@ -1290,7 +1363,7 @@ public class SocialAuthAdapter {
 	/**
 	 * Asynchronous Method to upload image on provider.Returns result in
 	 * onExecute() of AsyncTaskListener.Currently supports Facebook and Twitter
-	 * 
+	 *
 	 * @param message
 	 *            message to be attached with image
 	 * @param fileName
