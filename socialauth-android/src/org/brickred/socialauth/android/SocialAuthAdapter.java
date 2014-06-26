@@ -130,7 +130,9 @@ public class SocialAuthAdapter {
 				Constants.TWITTER, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
 				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do?denied"), LINKEDIN(Constants.LINKEDIN,
 				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
-				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do?oauth_problem"), MYSPACE(
+				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do?oauth_problem"), LINKEDINOAUTH2(Constants.LINKEDINOAUTH2,
+                "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
+                "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do?oauth_problem"), MYSPACE(
 				Constants.MYSPACE, "http://socialauth.in", "http://socialauth.in/?oauth_problem"), RUNKEEPER(
 				Constants.RUNKEEPER, "http://socialauth.in/socialauthdemo/socialauthSuccessAction.do",
 				"http://socialauth.in/socialauthdemo/socialauthSuccessAction.do/?error"), YAHOO(Constants.YAHOO,
