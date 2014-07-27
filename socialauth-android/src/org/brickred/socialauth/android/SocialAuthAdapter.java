@@ -126,30 +126,63 @@ public class SocialAuthAdapter {
 	 * 
 	 */
 	public enum Provider {
-		FACEBOOK(Constants.FACEBOOK, "fbconnect://success", "fbconnect://success?error_reason"), TWITTER(
-				Constants.TWITTER, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
-				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do?denied"), LINKEDIN(Constants.LINKEDIN,
+		FACEBOOK(Constants.FACEBOOK, "fbconnect://success", "fbconnect://success?error_reason"),
+        TWITTER(
+                Constants.TWITTER,
+                "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
+				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do?denied"
+        ),
+        LINKEDIN(
+                Constants.LINKEDIN,
 				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
-				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do?oauth_problem"), MYSPACE(
-				Constants.MYSPACE, "http://socialauth.in", "http://socialauth.in/?oauth_problem"), RUNKEEPER(
-				Constants.RUNKEEPER, "http://socialauth.in/socialauthdemo/socialauthSuccessAction.do",
-				"http://socialauth.in/socialauthdemo/socialauthSuccessAction.do/?error"), YAHOO(Constants.YAHOO,
-				"http://socialauth.in/socialauthdemo", "http://socialauth.in/socialauthdemo/?oauth_problem"), FOURSQUARE(
-				Constants.FOURSQUARE, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
-				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), GOOGLE(
-				Constants.GOOGLE, "http://socialauth.in/socialauthdemo",
-				"http://socialauth.in/socialauthdemo/?oauth_problem"), YAMMER(Constants.YAMMER,
+				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do?oauth_problem"
+        ),
+        MYSPACE(Constants.MYSPACE, "http://socialauth.in", "http://socialauth.in/?oauth_problem"),
+        RUNKEEPER(
+                Constants.RUNKEEPER,
+                "http://socialauth.in/socialauthdemo/socialauthSuccessAction.do",
+				"http://socialauth.in/socialauthdemo/socialauthSuccessAction.do/?error"
+        ),
+        YAHOO(Constants.YAHOO, "http://socialauth.in/socialauthdemo", "http://socialauth.in/socialauthdemo/?oauth_problem"),
+        FOURSQUARE(
+				Constants.FOURSQUARE,
+                "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
+				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"
+        ),
+        GOOGLE(Constants.GOOGLE, "http://socialauth.in/socialauthdemo", "http://socialauth.in/socialauthdemo/?oauth_problem"),
+        YAMMER(
+                Constants.YAMMER,
 				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
-				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), SALESFORCE(
-				Constants.SALESFORCE, "https://socialauth.in:8443/socialauthdemo/socialAuthSuccessAction.do",
-				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), GOOGLEPLUS(
-				Constants.GOOGLE_PLUS, "http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do",
-				"http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), INSTAGRAM(
-				Constants.INSTAGRAM, "http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do",
-				"http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), FLICKR(
-				Constants.FLICKR, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
-				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"), EMAIL(SHARE_MAIL, "",
-				""), MMS(SHARE_MMS, "", ""), GENERIC("", "", "");
+				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"
+        ),
+        SALESFORCE(
+				Constants.SALESFORCE,
+                "https://socialauth.in:8443/socialauthdemo/socialAuthSuccessAction.do",
+				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"
+        ),
+        GOOGLEPLUS(
+				Constants.GOOGLE_PLUS,
+                "http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do",
+				"http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"
+        ),
+        INSTAGRAM(
+				Constants.INSTAGRAM,
+                "http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do",
+				"http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"
+        ),
+        FLICKR(
+				Constants.FLICKR,
+                "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do",
+				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do/?oauth_problem"
+        ),
+        VK(
+                Constants.VK_OAUTH2,
+                "https://oauth.vk.com/blank.html",
+                "https://oauth.vk.com/blank.html#error=access_denied"
+        ),
+        EMAIL(SHARE_MAIL, "", ""),
+        MMS(SHARE_MMS, "", ""),
+        GENERIC("", "", "");
 
 		private String name;
 		private String cancelUri;
@@ -583,8 +616,7 @@ public class SocialAuthAdapter {
 	/**
 	 * Internal method to load config
 	 * 
-	 * @param context
-	 *            The Android Activity context
+	 * @param ctx The Android Activity context
 	 * 
 	 */
 
@@ -636,8 +668,12 @@ public class SocialAuthAdapter {
 			public void run() {
 				try {
 					// Get Callback url
-					url = socialAuthManager.getAuthenticationUrl(provider.toString(), provider.getCallBackUri())
-							+ "&type=user_agent&display=touch";
+                    url = socialAuthManager.getAuthenticationUrl(provider.toString(), provider.getCallBackUri());
+                    if (provider.equals(Provider.VK)) {
+                        url = url.concat("&display=mobile");
+                    } else {
+                        url = url.concat("&type=user_agent&display=touch");
+                    }
 
 					handler.post(new Runnable() {
 						@Override
@@ -663,7 +699,7 @@ public class SocialAuthAdapter {
 	 * available it connects manager with AccessGrant else create new manager
 	 * and open webview
 	 * 
-	 * @param context
+	 * @param ctx
 	 *            The Android Activity that will parent the auth dialog.
 	 * @param provider
 	 *            Provider being authenticated
@@ -1274,8 +1310,7 @@ public class SocialAuthAdapter {
 
 		Response res = null;
 		try {
-			if (getCurrentProvider().getProviderId().equalsIgnoreCase("facebook")
-					|| getCurrentProvider().getProviderId().equalsIgnoreCase("twitter")) {
+			if (providerSupportsImageUploading(getCurrentProvider())) {
 				res = getCurrentProvider().uploadImage(message, fileName, inputStream);
 				Log.d("SocialAuthAdapter", "Image Uploaded");
 				return Integer.valueOf(res.getStatus());
@@ -1315,13 +1350,19 @@ public class SocialAuthAdapter {
 		}
 
 		InputStream inputStream = new ByteArrayInputStream(bos.toByteArray());
-		if (getCurrentProvider().getProviderId().equalsIgnoreCase("facebook")
-				|| getCurrentProvider().getProviderId().equalsIgnoreCase("twitter")) {
+		if (providerSupportsImageUploading(getCurrentProvider())) {
 			new UploadImageTask(listener).execute(message, fileName, inputStream);
 		} else {
 			throw new SocialAuthException("Provider not Supported");
 		}
 	}
+
+    private boolean providerSupportsImageUploading(final AuthProvider provider) {
+        return
+                getCurrentProvider().getProviderId().equalsIgnoreCase("facebook")
+                || getCurrentProvider().getProviderId().equalsIgnoreCase("twitter")
+                || getCurrentProvider().getProviderId().equalsIgnoreCase("vk");
+    }
 
 	/**
 	 * AsyncTask to uploadImage

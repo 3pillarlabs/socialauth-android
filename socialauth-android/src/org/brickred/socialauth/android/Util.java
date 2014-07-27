@@ -64,7 +64,7 @@ public final class Util {
 	public static int UI_RESOLUTION;
 
 	public static String providerList[] = { "facebook", "twitter", "runkeeper", "yammer", "foursquare", "salesforce",
-			"linkedin", "myspace", "flickr", "instagram" };
+			"linkedin", "myspace", "flickr", "instagram", "vk" };
 
 	/**
 	 * URL encoding of query parameters of a URL
