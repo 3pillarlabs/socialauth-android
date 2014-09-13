@@ -794,6 +794,15 @@ public class SocialAuthAdapter {
 
 		if (providerName != null) {
 
+			if (socialAuthManager == null) {
+				socialAuthManager = new SocialAuthManager();
+				try {
+					loadConfig(ctx);
+				} catch (Exception e) {
+					Log.d("SocialAuthAdapter", "Could not load configuration");
+				}
+			}
+
 			if (socialAuthManager.getConnectedProvidersIds().contains(providerName))
 				socialAuthManager.disconnectProvider(providerName);
 
