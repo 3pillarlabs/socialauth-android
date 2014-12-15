@@ -657,7 +657,130 @@ public class SocialAuthAdapter {
 
 		new Thread(runnable).start();
 	}
+	
+	public void connect(final Context ctx, final Provider provider, final OnProviderConnectedListener restoreListener ){
 
+		currentProvider = provider;
+		Log.d("SocialAuthAdapter", "Selected provider is " + currentProvider);
+
+		// Initialize socialauth manager if not already done
+		if (socialAuthManager != null) {
+			// If SocialAuthManager is not null and contains Provider Id, send
+			// response to listener
+			if (socialAuthManager.getConnectedProvidersIds().contains(currentProvider.toString())) {
+				Log.d("SocialAuthAdapter", "Provider already connected");
+				Bundle bundle = new Bundle();
+				bundle.putString(SocialAuthAdapter.PROVIDER, currentProvider.toString());
+				restoreListener.onConnected();
+			}
+			// If SocialAuthManager is not null and not contains Provider ID connect provider
+			else {
+				Log.e("no","not yet implemented");
+				connectProvider(ctx, provider,restoreListener);
+			}
+
+		}
+		// If SocialAuthManager is null, create new SocialAuthManager , load configuration and connect provider
+		else {
+			Log.d("SocialAuthAdapter", "Loading keys and secrets from configuration");
+
+			socialAuthManager = new SocialAuthManager();
+			try {
+				loadConfig(ctx);
+
+			} catch (Exception e) {
+				Log.d("SocialAuthAdapter", "Could not load configuration");
+			}
+			connectProvider(ctx, provider,restoreListener);
+		}
+
+		// If network not available show message
+		if (!Util.isNetworkAvailable(ctx)) {
+			restoreListener.onError(new SocialAuthError("Please check your Internet connection", new Exception("")));
+			return;
+		}		
+	}
+	
+	private void connectProvider(final Context ctx, final Provider provider, final OnProviderConnectedListener restoreListener ){
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ctx);
+		
+		if (pref.contains(provider.toString() + " key")) {
+			tokenMap = new HashMap<String, Object>();
+
+			for (Map.Entry entry : pref.getAll().entrySet())
+				tokenMap.put(entry.getKey().toString(), entry.getValue());
+
+			// If Access Token is available , connect using Access Token
+			try {
+				HashMap<String, Object> attrMap = null;
+				attrMap = new HashMap<String, Object>();
+
+				String key = (String) tokenMap.get(provider.toString() + " key");
+				String secret = (String) tokenMap.get(provider.toString() + " secret");
+				String providerid = (String) tokenMap.get(provider.toString() + " providerid");
+
+				String temp = provider.toString() + "attribute";
+				for (String attr : tokenMap.keySet()) {
+					System.out.println("Attr " + attr);
+
+					if (attr.startsWith(temp)) {
+						int startLocation = attr.indexOf(temp) + temp.length() + 1;
+						attrMap.put(attr.substring(startLocation), tokenMap.get(attr));
+					}
+
+				}
+
+				for (Map.Entry entry : attrMap.entrySet()) {
+					System.out.println(entry.getKey() + ", " + entry.getValue());
+				}
+
+				// create new AccessGrant Object
+				final AccessGrant accessGrant = new AccessGrant(key, secret);
+				accessGrant.setProviderId(providerid);
+				accessGrant.setAttributes(attrMap);
+
+				Log.d("SocialAuthAdapter", "Loading from AccessToken "+providerid+"--"+attrMap+"---"+key+"---"+secret);
+			
+				AsyncTask<Void, Void, Exception> task = new AsyncTask<Void, Void, Exception>()
+				{
+					@Override
+					protected Exception doInBackground(Void... params) {
+						try {
+							// connect manager with accessGrant
+							socialAuthManager.connect(accessGrant);
+
+							// To check validity of Access Token
+							getCurrentProvider().getUserProfile().getValidatedId();
+							return null;
+						} catch (Exception e) {
+							return e;
+						}
+					}
+					
+					@Override
+					protected void onPostExecute(Exception result) {
+						super.onPostExecute(result);
+						
+						if (result instanceof Exception){
+							restoreListener.onError(new SocialAuthError("Token Error", result));
+							return;
+						}
+						restoreListener.onConnected();
+					}
+					
+				};
+				
+				task.execute();
+				
+			} catch (Exception e) {
+				restoreListener.onError(new SocialAuthError("Restore Provider Error", e));
+			}
+		}
+		else {
+			restoreListener.onNotAvailable();
+		}		
+	}
+	
 	/**
 	 * Internal method to connect provider. The method check for access token If
 	 * available it connects manager with AccessGrant else create new manager
@@ -670,7 +793,7 @@ public class SocialAuthAdapter {
 	 */
 
 	private void connectProvider(final Context ctx, final Provider provider) {
-
+	
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ctx);
 
 		if (pref.contains(provider.toString() + " key")) {
