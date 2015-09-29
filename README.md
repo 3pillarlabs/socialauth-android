@@ -55,3 +55,10 @@ Once SocialAuth Android is integrated into your application, following is the au
 ![UserFlow](https://raw.github.com/wiki/3pillarlabs/socialauth-android/images/socialauthandroid-process.png)
 
 SocialAuth Android is distrubuted under MIT License.
+
+# About this project
+
+![3Pillar Global] (http://www.3pillarglobal.com/wp-content/themes/base/library/images/logo_3pg.png)
+
+**SocialAuth Android** is developed and maintained by [3Pillar Global](http://www.3pillarglobal.com/).
+
