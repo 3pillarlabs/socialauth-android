@@ -894,7 +894,7 @@ public class SocialAuthAdapter {
 	@SuppressWarnings("unchecked")
 	public void updateStory(final String message, final String name, final String caption, final String description,
 			final String link, final String picture, final SocialAuthListener<Integer> listener)
-			throws UnsupportedEncodingException {
+			throws UnsupportedEncodingException,NullPointerException {
 
 		if (getCurrentProvider().getProviderId().equalsIgnoreCase("facebook")) {
 			final Map<String, String> params = new HashMap<String, String>();
