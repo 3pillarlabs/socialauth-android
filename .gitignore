@@ -8,10 +8,13 @@ gen
 build
 out
 lib
+.gradle
 
 target
 pom.xml.*
 release.properties
+local.properties
+project.properties
 
 .idea
 *.iml
