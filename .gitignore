@@ -25,3 +25,22 @@ classes
 obj
 
 .DS_Store
+
+# [Maven] ========================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+
+# [Gradle-Android] ========================
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Gradle Signing
+signing.properties
+*.keystore
+gradle.properties
