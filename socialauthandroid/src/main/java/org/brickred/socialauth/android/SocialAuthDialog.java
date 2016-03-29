@@ -492,9 +492,9 @@ public class SocialAuthDialog extends Dialog {
 		edit.putString(mProviderName.toString() + " providerid", providerid);
 
 		if (attributes != null) {
-			for (Map.Entry entry : attributes.entrySet()) {
-				System.out.println(entry.getKey() + ", " + entry.getValue());
-			}
+//			for (Map.Entry entry : attributes.entrySet()) {
+//				System.out.println(entry.getKey() + ", " + entry.getValue());
+//			}
 
 			for (String s : attributes.keySet()) {
 				edit.putString(mProviderName.toString() + "attribute " + s, String.valueOf(attributes.get(s)));
