@@ -696,7 +696,7 @@ public class SocialAuthAdapter {
 
 				String temp = provider.toString() + "attribute";
 				for (String attr : tokenMap.keySet()) {
-					System.out.println("Attr " + attr);
+//					System.out.println("Attr " + attr);
 
 					if (attr.startsWith(temp)) {
 						int startLocation = attr.indexOf(temp) + temp.length() + 1;
@@ -705,9 +705,9 @@ public class SocialAuthAdapter {
 
 				}
 
-				for (Map.Entry entry : attrMap.entrySet()) {
-					System.out.println(entry.getKey() + ", " + entry.getValue());
-				}
+//				for (Map.Entry entry : attrMap.entrySet()) {
+//					System.out.println(entry.getKey() + ", " + entry.getValue());
+//				}
 
 				// create new AccessGrant Object
 				final AccessGrant accessGrant = new AccessGrant(key, secret);
