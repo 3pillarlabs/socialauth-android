@@ -17,7 +17,7 @@ android {
 }
 
 dependencies {
-    compile 'org.brickred:socialauth:4.11'
+    compile 'org.brickred:socialauth:4.13'
 
 
 }
