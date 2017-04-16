@@ -11,17 +11,17 @@ With this library, you can:
   *	Import friend contacts of logged in user (Email, Profile URL and Name)
   *	Do much more using our flexible API like extend it for more network
 
-###Whats new in Version 3.2 ?
+### Whats new in Version 3.2 ?
    *	Bugs Solved :  Facebook issue solved. Now we are using native web view login. please check the wiki to create Facebook app using native flow.
    *    Bugs Solved :  Foursquare issue fixed
    *    Bugs Solved :  Signout bug fixed
    *    Bugs Solved :  Custom -UI example upload image bug fixed
    *    Documentation Guides for Facebook, Google Plus, Flickr , Share-Menu  and more 
     
-###Whats new in Version 3.1 ?
+### Whats new in Version 3.1 ?
    *	Bugs Solved : Twitter Recent API changes fixed
 
-###Whats new in Version 3.0 ?
+### Whats new in Version 3.0 ?
   *	New Providers Support : Instagram , Flickr
   *	New Example : Share- Menu - Now use provides in Android ShareAction Provider. Check wiki and example for use.
   *	Contacts : Support added for Google Plus, Flickr , Instagram
@@ -32,7 +32,7 @@ With this library, you can:
   *	Bugs Solved : Get Profile Images for FourSquare
   *	Bugs Solved : UI issues for Yahoo , Yammer Solved
 
-###Whats new in Version 2.6 ?
+### Whats new in Version 2.6 ?
   *	Linkedin Career Plugin Added to show information for job , education , recommendations.
   *	Linkedin feed plugin added.
   *	Now get profile images for your contacts on Facebook , Twitter and !Linkedin.
@@ -42,7 +42,7 @@ With this library, you can:
 
 Check [Getting Started](https://github.com/3pillarlabs/socialauth-android/wiki/Getting-Started) to start.
 
-###How does it Work?
+### How does it Work?
 
 Once SocialAuth Android is integrated into your application, following is the authentication process:
 
